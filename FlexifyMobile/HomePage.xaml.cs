@@ -30,10 +30,22 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         {
 
             Template template = workoutData.templates[i];
+            string description = "";
+            var ii = 0;
+            foreach(Json exercise in template.json)
+            {
+                description += $"{exercise.set_data.Length}x {exercise.name}";
+                if (ii < template.json.Length - 1)
+                {
+                    description += ", ";
+                }
+                ii++;
+            }
             Days.Add(new DayViewModel
             {
                 Day = workoutData != null ? $"{template.json.Length.ToString()}\nSet" : "No data",
                 Title = workoutData != null ? template.name : "No data",
+                Description = workoutData != null ? description : "No data",
                 Data = template
             });
 
@@ -167,6 +179,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                 else
                 {
                     todays_workout.IsVisible = false;
+                    add_workout.IsVisible = true;
                 }
             });
         }
@@ -205,8 +218,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             muscleView_front.FadeTo(0, 300);
             muscleView_back.FadeTo(0, 300);
 
-            moreGrid.FadeTo(0, 300);
             todays_workout.FadeTo(0, 300);
+            add_workout.FadeTo(0, 300);
             timeSpan.FadeTo(0, 300);
         }
         else
@@ -216,8 +229,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             muscleView_front.FadeTo(front ? 1: 0.1, 300);
             muscleView_back.FadeTo(front ?  0.1 : 1, 300);
 
-            moreGrid.FadeTo(1, 300);
             todays_workout.FadeTo(1, 300);
+            add_workout.FadeTo(1, 300);
             timeSpan.FadeTo(1, 300);
         }
     }

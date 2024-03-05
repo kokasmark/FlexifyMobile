@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Linq;
+using System.Text.Json;
 
 namespace FlexifyMobile
 {
@@ -9,9 +10,28 @@ namespace FlexifyMobile
         {
             InitializeComponent();
             database = new FlexifyDatabase();
+            List<User> users = database.GetItemsAsync();
+            GetUserInformation(users[users.Count - 1].token);
+            database = new FlexifyDatabase();
             this.BindingContext = this;
         }
+        async void GetUserInformation(string token)
+        {
+            var client = new HttpClient();
+            var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/user");
+            request.Headers.Add("X-Token", $"{token}");
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
 
+            if (response.IsSuccessStatusCode)
+            {
+                await Device.InvokeOnMainThreadAsync(async () =>
+                {
+                    Shell.Current.GoToAsync($"//HomePage?Token={token}", true);
+                });
+            }
+        }
         private async void login_Btn_Clicked(object sender, EventArgs e)
         {
             var client = new HttpClient();
