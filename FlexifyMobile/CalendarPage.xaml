@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FlexifyMobile.CalendarPage"
+             Title="Calendar">
+    <StackLayout BackgroundColor="{DynamicResource Background}">
+        <Border Scale="0.8" TranslationY="-50" BackgroundColor="Transparent">
+            <Grid RowDefinitions="*,6*" >
+                <Label HorizontalOptions="Center" FontSize="40" Margin="30" TextColor="White" 
+                       FontAttributes="Bold" TranslationY="-30" Text="Workouts"></Label>
+                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="35"></Line>
+                <CollectionView Grid.Row="1" x:Name="calendarCollectionView"
+                            ItemsSource="{Binding Days}"
+                            SelectionMode="Single"
+                            SelectionChanged="OnDaySelected" HeightRequest="600">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                                     Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
+                                <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
+                                  HeightRequest="80">
+                                    <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
+                                         VerticalOptions="CenterAndExpand"
+                                         HorizontalOptions="CenterAndExpand"
+                                         TextColor="White"
+                                           FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" FontSize="25" FontAttributes="Bold" Text="{Binding Title}"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="CenterAndExpand"
+                                       TextColor="White"/>
+                                    <Label Grid.Column="1" Grid.Row="1" FontSize="18" Text="{Binding Description}"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        TextColor="White"/>
+                                    <Button Grid.Column="2" Grid.RowSpan="2" Text="Start"></Button>
+                                    <Border WidthRequest="300" HeightRequest="80" TranslationY="-120" IsVisible="False"  x:Name="workoutDetailContainer">
+                                        <Grid RowDefinitions="*,6*,*">
+
+                                            <CollectionView Grid.Row="1" BackgroundColor="Transparent" x:Name="workoutDetail">
+                                                <CollectionView.ItemsLayout>
+                                                    <GridItemsLayout Orientation="Vertical"
+                                                 Span="1" />
+                                                </CollectionView.ItemsLayout>
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Label Grid.RowSpan="2" FontSize="15" Text="{Binding comment}"
+                                                      VerticalOptions="CenterAndExpand"
+                                                      HorizontalOptions="CenterAndExpand"
+                                                      TextColor="White"
+                                                        FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                            </CollectionView>
+                                        </Grid>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+    </StackLayout>
+
+
+</ContentPage>

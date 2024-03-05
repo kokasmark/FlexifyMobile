@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FlexifyMobile.MainPage" BackgroundColor="{DynamicResource Background}">
+
+    <Grid RowDefinitions="3*,*,*,4*">
+        <Image Grid.Row="0" Source="logo.webp" WidthRequest="250"></Image>
+        <Border Grid.Row="1" HeightRequest="50" WidthRequest="200">
+            <Entry x:Name="username_Ent" Placeholder="Username" Text="gipsz_jakab"></Entry>
+        </Border>
+        <Border Grid.Row="2" HeightRequest="50" WidthRequest="200">
+            <Entry x:Name="password_Ent" IsPassword="True" Placeholder="Password" Text="teszt"></Entry>
+        </Border>
+        <Label x:Name="status_lbl" Text="{Binding status}"/>
+        <Button x:Name="login_Btn" Grid.Row="3" WidthRequest="200" HeightRequest="50" Text="Login" Clicked="login_Btn_Clicked"/>
+    </Grid>
+
+</ContentPage>
