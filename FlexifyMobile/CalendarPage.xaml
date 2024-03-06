@@ -59,11 +59,11 @@
             <Grid RowDefinitions="*,6*" >
                 <Label HorizontalOptions="Center" FontSize="30" TextColor="White" 
                FontAttributes="Bold" TranslationY="-5" Text="This Month"></Label>
-                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="35"></Line>
+                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="70"></Line>
                 <CollectionView Grid.Row="1" x:Name="monthView"
                     ItemsSource="{Binding Days}"
                     SelectionMode="Single"
-                    SelectionChanged="OnDaySelected" HeightRequest="400">
+                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-35">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                              Span="1" />

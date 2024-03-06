@@ -13,6 +13,131 @@
         <ToolbarItem IconImageSource="{StaticResource Calendar_Hide}"/>
         <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
     </ContentPage.ToolbarItems>
-    
-    
+
+    <Grid RowDefinitions="*,*,*,*">
+        <Border WidthRequest="300" Margin="10" x:Name="Breakfast">
+            <Grid ColumnDefinitions="*,2*">
+                <Label Text="{Binding TotalCalories}" VerticalOptions="Center" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="White"></Label>
+                <BoxView   
+                  Color="White"  
+                  Margin="100,0,0,0"                   
+                  WidthRequest="2"  
+                  HorizontalOptions="Fill" />
+
+
+                <CollectionView Grid.Column="1" x:Name="foods_breakfast"
+                    SelectionMode="Single" BackgroundColor="Beige">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+             Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                                <Grid ColumnDefinitions="2*,*">
+                                    <Label Text="{Binding Name}"></Label>
+                                    <Label Grid.Column="1" Text="{Binding Calories}"></Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <Border WidthRequest="300" Margin="10" x:Name="Lunch" Grid.Row="1">
+            <Grid ColumnDefinitions="*,2*">
+                <Label Text="{Binding TotalCalories}" VerticalOptions="Center" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="White"></Label>
+                <BoxView   
+          Color="White"  
+          Margin="100,0,0,0"                   
+          WidthRequest="2"  
+          HorizontalOptions="Fill" />
+
+
+                <CollectionView Grid.Column="1" x:Name="foods_lunch"
+            SelectionMode="Single" BackgroundColor="Beige">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                        Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                                <Grid ColumnDefinitions="2*,*">
+                                    <Label Text="{Binding Name}"></Label>
+                                    <Label Grid.Column="1" Text="{Binding Calories}"></Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <Border WidthRequest="300" Margin="10" x:Name="Dinner" Grid.Row="2">
+            <Grid ColumnDefinitions="*,2*">
+                <Label Text="{Binding TotalCalories}" VerticalOptions="Center" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="White"></Label>
+                <BoxView   
+  Color="White"  
+  Margin="100,0,0,0"                   
+  WidthRequest="2"  
+  HorizontalOptions="Fill" />
+
+
+                <CollectionView Grid.Column="1" x:Name="foods_dinner"
+    SelectionMode="Single" BackgroundColor="Beige">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                                <Grid ColumnDefinitions="2*,*">
+                                    <Label Text="{Binding Name}"></Label>
+                                    <Label Grid.Column="1" Text="{Binding Calories}"></Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+
+        <Border WidthRequest="300" Margin="10" x:Name="Snacks" Grid.Row="3">
+            <Grid ColumnDefinitions="*,2*">
+                <Label Text="{Binding TotalCalories}" VerticalOptions="Center" FontSize="30" HorizontalTextAlignment="Center" FontAttributes="Bold" TextColor="White"></Label>
+                <BoxView   
+  Color="White"  
+  Margin="100,0,0,0"                   
+  WidthRequest="2"  
+  HorizontalOptions="Fill" />
+
+
+                <CollectionView Grid.Column="1" x:Name="foods_snacks"
+    SelectionMode="Single" BackgroundColor="Beige">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                                <Grid ColumnDefinitions="2*,*">
+                                    <Label Text="{Binding Name}"></Label>
+                                    <Label Grid.Column="1" Text="{Binding Calories}"></Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+    </Grid>
+
 </ContentPage>
