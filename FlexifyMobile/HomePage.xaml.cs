@@ -11,6 +11,7 @@ public class DayViewModel
     public string Day { get; set; }
     public string Description { get; set; }
     public bool IsFinished { get; set; }
+    public bool IsVisible { get; set; }
 
     public double Opacity { get; set; } 
 
@@ -97,6 +98,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         muscleView_front.FadeTo(1f, speed);
         muscleView_back.FadeTo(0.1f, speed);
         muscleView_back.TranslateTo(280, 225, speed);
+        muscleView_back.ScaleTo(1.2, speed);
         muscleView_front.TranslateTo(0, 200, speed);
     }
     async Task AutoRotate()
@@ -117,6 +119,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         {
             muscleView_front.FadeTo(0.1f, speed);
             muscleView_back.FadeTo(1, speed);
+            muscleView_back.ScaleTo(1.4, speed);
+            muscleView_front.ScaleTo(1.3, speed);
             muscleView_back.TranslateTo(170, 225, speed);
             muscleView_front.TranslateTo(110, 200, speed);
         }
@@ -124,6 +128,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         {
             muscleView_front.FadeTo(1f, speed);
             muscleView_back.FadeTo(0.1f, speed);
+            muscleView_back.ScaleTo(1.2, speed);
+            muscleView_front.ScaleTo(1.5, speed);
             muscleView_back.TranslateTo(280, 225, speed);
             muscleView_front.TranslateTo(0, 200, speed);
         }
@@ -204,9 +210,18 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                     TimeJson time = JsonSerializer.Deserialize<TimeJson>(workoutData.data[0].time);
                     string format = "ddd MMM dd yyyy HH:mm:ss 'GMT'zzz '(''közép-európai téli idõ'')'";
 
+                    DateTime start_time = DateTime.Today;
+                    DateTime end_time = DateTime.Today;
                     // Parse the string into a DateTime object
-                    DateTime start_time = DateTime.ParseExact(time.start, format, CultureInfo.InvariantCulture);
-                    DateTime end_time = DateTime.ParseExact(time.end, format, CultureInfo.InvariantCulture);
+                    try
+                    {
+                        start_time = DateTime.ParseExact(time.start, format, CultureInfo.InvariantCulture);
+                        end_time = DateTime.ParseExact(time.end, format, CultureInfo.InvariantCulture);
+                    }
+                    catch
+                    {
+
+                    }
                     string timeString = $"{start_time.Hour+1}:{start_time.Minute:D2} - {end_time.Hour+1}:{end_time.Minute:D2}";
                     dayViewModel = new DayViewModel {
                         Day = monthsShort[DateTime.Now.Month - 1] + "\n" + DateTime.Now.Day.ToString(),

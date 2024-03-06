@@ -10,11 +10,19 @@ namespace FlexifyMobile
         {
             database = new FlexifyDatabase();
             List<User> users = database.GetItemsAsync();
-            GetUserInformation(users[users.Count - 1].token);
+            TryLoggingIn(users[users.Count - 1].token);
             InitializeComponent();
             this.BindingContext = this;
         }
-        async void GetUserInformation(string token)
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            await Task.Delay(100);
+            imgLoader.IsAnimationPlaying = false;
+            await Task.Delay(100);
+            imgLoader.IsAnimationPlaying = true;
+        }
+        async void TryLoggingIn(string token)
         {
             try
             {
@@ -35,7 +43,7 @@ namespace FlexifyMobile
             }
             catch
             {
-
+                hide.IsVisible = true;
             }
         }
         private async void login_Btn_Clicked(object sender, EventArgs e)

@@ -29,7 +29,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{Binding Color}"  Padding="5" Margin="5">
+                            <Border BackgroundColor="{DynamicResource Primary}"  Padding="5" Margin="5">
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                                   HeightRequest="80" Opacity="{Binding Opacity}">
                                     <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
@@ -45,8 +45,10 @@
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="CenterAndExpand"
                                         TextColor="White"/>
-                                    <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
-                                    
+                                    <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent" IsVisible="{Binding IsVisible}">
+                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40" ></ImageButton>
+                                    </Border>
+                                    <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}" IsVisible="{Binding IsFinished}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -72,7 +74,7 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             
-                            <Border BackgroundColor="{Binding Color}" Padding="5" Margin="5">
+                            <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
                                 
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                           HeightRequest="80"  Opacity="{Binding Opacity}">
@@ -89,7 +91,10 @@
                                 VerticalOptions="CenterAndExpand"
                                 HorizontalOptions="CenterAndExpand"
                                 TextColor="White"/>
-                                    <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
+                                    <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent"  IsVisible="{Binding IsVisible}">
+                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40"></ImageButton>
+                                    </Border>
+                                    <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}"  IsVisible="{Binding IsFinished}"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
