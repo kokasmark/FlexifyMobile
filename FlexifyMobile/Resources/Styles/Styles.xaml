@@ -2,7 +2,20 @@
 <?xaml-comp compile="true" ?>
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:res="clr-namespace:FlexifyMobile.Resources">
+
+    <FontImage x:Key="Play" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Play}"/>
+    
+    <FontImage x:Key="Home" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Home}"/>
+    <FontImage x:Key="Diet" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Carrot}"/>
+    <FontImage x:Key="Other" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.EllipsisH}"/>
+    <FontImage x:Key="Calendar" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Calendar}"/>
+
+    <FontImage x:Key="Home_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Home}"/>
+    <FontImage x:Key="Diet_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Carrot}"/>
+    <FontImage x:Key="Other_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.EllipsisH}"/>
+    <FontImage x:Key="Calendar_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Calendar}"/>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />

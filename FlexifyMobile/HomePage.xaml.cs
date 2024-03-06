@@ -10,6 +10,11 @@ public class DayViewModel
     public string Title { get; set; }
     public string Day { get; set; }
     public string Description { get; set; }
+    public bool IsFinished { get; set; }
+
+    public double Opacity { get; set; } 
+
+    public Color Color { get; set; }
     public Template Data;
 }
 
@@ -25,7 +30,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     void InitializeWorkouts()
     {
         Days = new ObservableCollection<DayViewModel>();
-        WorkoutTemplate workoutData = getData(token).Result;
+        WorkoutTemplate workoutData = getTemplates(token).Result;
         for (int i = 0; i < workoutData.templates.Length; i++)
         {
 
@@ -64,6 +69,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         InitializeWorkouts();
         StartAnim(500);
     }
+
     async void StartAnim(uint speed)
     {
         muscleView_front.FadeTo(1f, speed);
@@ -104,7 +110,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             User user = JsonSerializer.Deserialize<User>(resdata);
             await Device.InvokeOnMainThreadAsync(() =>
             {
-                Page.Title = $"Welcome {user.username}!";
+                Page.Title = $"Hey, {user.username}!";
             });
         }
     }
@@ -184,7 +190,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             });
         }
     }
-    async Task<WorkoutTemplate> getData(string token)
+    async Task<WorkoutTemplate> getTemplates(string token)
     {
         var client = new HttpClient();
 
@@ -208,7 +214,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         }
         return null;
     }
-
+    
     void WorkoutsToggle(bool toggle)
     {
         if (toggle)
@@ -218,19 +224,19 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             muscleView_front.FadeTo(0, 300);
             muscleView_back.FadeTo(0, 300);
 
-            todays_workout.FadeTo(0, 300);
-            add_workout.FadeTo(0, 300);
+            todays_workout.TranslateTo(0, -600, 200);
+            add_workout.TranslateTo(0, -600, 200);
             timeSpan.FadeTo(0, 300);
         }
         else
         {
-            calendarCollectionView.TranslateTo(0, 230, 300);
+            calendarCollectionView.TranslateTo(0, 230, 200);
             calendarCollectionView.FadeTo(0.5, 300);
             muscleView_front.FadeTo(front ? 1: 0.1, 300);
             muscleView_back.FadeTo(front ?  0.1 : 1, 300);
 
-            todays_workout.FadeTo(1, 300);
-            add_workout.FadeTo(1, 300);
+            todays_workout.TranslateTo(0, -65, 300);
+            add_workout.TranslateTo(0, -65, 300);
             timeSpan.FadeTo(1, 300);
         }
     }
@@ -257,4 +263,61 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         
     }
 
+    private void TimeSpan_Clicked(object sender, EventArgs e)
+    {
+        foreach (var child in timeSpanGrid.Children)
+        {
+            if (child is Button b)
+            {
+                b.Opacity = 0.8;
+                b.FontAttributes = FontAttributes.None;
+            }
+        }
+        if (sender is Button button)
+        {
+            string buttonText = button.Text;
+            button.Opacity = 1;
+            button.FontAttributes = FontAttributes.Bold;
+            switch (buttonText)
+            {
+                case "Weekly":
+                    muscleView_front.ChangeTimeSpan(7);
+                    muscleView_back.ChangeTimeSpan(7);
+                    break;
+                case "Monthly":
+                    muscleView_front.ChangeTimeSpan(30);
+                    muscleView_back.ChangeTimeSpan(30);
+                    break;
+                case "6 Months":
+                    muscleView_front.ChangeTimeSpan(180);
+                    muscleView_back.ChangeTimeSpan(180);
+                    break;
+                case "A Year":
+                    muscleView_front.ChangeTimeSpan(365);
+                    muscleView_back.ChangeTimeSpan(365);
+                    break;
+                case "All":
+                    muscleView_front.ChangeTimeSpan(69420);
+                    muscleView_back.ChangeTimeSpan(69420);
+                    break;
+                default:
+                    muscleView_front.ChangeTimeSpan(30);
+                    muscleView_back.ChangeTimeSpan(30);
+                    break;
+            }
+        }
+    }
+
+    private void Diet_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync($"//DietPage", false);
+    }
+    private void Other_Clicked(object sender, EventArgs e)
+    {
+
+    }
+    private void Calendar_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync($"//CalendarPage", false);
+    }
 }

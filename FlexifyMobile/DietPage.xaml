@@ -4,24 +4,15 @@
              xmlns:d="http://schemas.microsoft.com/dotnet/2021/maui/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              x:Class="FlexifyMobile.DietPage"
-             Title="DietPage"
+             Title="Diet"
              xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
               BackgroundColor="{DynamicResource Background}">
-    <Grid RowDefinitions="*">
-        <skia:SKCanvasView x:Name="canvasView"
-                      PaintSurface="OnCanvasViewPaintSurface"
-                      VerticalOptions="FillAndExpand"
-                      HorizontalOptions="FillAndExpand" WidthRequest="500" HeightRequest="300"/>
-        <Border Grid.Row="2" Grid.ColumnSpan="2" HeightRequest="50" TranslationY="350" WidthRequest="400" >
-            <Grid ColumnDefinitions="*,*,*">
-                <Image Source="icon_home.svg" HeightRequest="40" WidthRequest="40" Opacity="0.8"></Image>
-                <Image Source="icon_dumbbell.svg" HeightRequest="40" WidthRequest="40" Grid.Column="1" Opacity="0.8"></Image>
-                <Image Source="icon_chart.svg" HeightRequest="40" WidthRequest="40" Scale="2" TranslationY="20" Grid.Column="2"></Image>
-                <Button WidthRequest="40" HeightRequest="40" Grid.Column="0" BackgroundColor="Transparent" x:Name="home_btn" Clicked="home_btn_Clicked"/>
-                <Button WidthRequest="40" HeightRequest="40" Grid.Column="1" BackgroundColor="Transparent" x:Name="calendar_btn" Clicked="calendar_btn_Clicked"/>
-                <Button WidthRequest="40" HeightRequest="40" Grid.Column="2" BackgroundColor="Transparent" x:Name="diet_btn"/>
-            </Grid>
-        </Border>
-        
-    </Grid>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
+        <ToolbarItem IconImageSource="{StaticResource Diet}"/>
+        <ToolbarItem IconImageSource="{StaticResource Calendar_Hide}"/>
+        <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
+    </ContentPage.ToolbarItems>
+    
+    
 </ContentPage>

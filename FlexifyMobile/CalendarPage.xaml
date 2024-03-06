@@ -3,16 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlexifyMobile.CalendarPage"
              Title="Calendar">
-    <StackLayout BackgroundColor="{DynamicResource Background}">
-        <Border Scale="0.8" TranslationY="-50" BackgroundColor="Transparent">
-            <Grid RowDefinitions="*,6*" >
-                <Label HorizontalOptions="Center" FontSize="40" Margin="30" TextColor="White" 
-                       FontAttributes="Bold" TranslationY="-30" Text="Workouts"></Label>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
+        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}"/>
+        <ToolbarItem IconImageSource="{StaticResource Calendar}"/>
+        <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="2*,4*" BackgroundColor="{DynamicResource Background}">
+        <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent">
+            <Grid RowDefinitions="2*,6*" >
+                <Label HorizontalOptions="Center" FontSize="30" TextColor="White" 
+                       FontAttributes="Bold" TranslationY="-10" Text="This Week"></Label>
                 <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="35"></Line>
-                <CollectionView Grid.Row="1" x:Name="calendarCollectionView"
+                <CollectionView Grid.Row="1" x:Name="weekView"
                             ItemsSource="{Binding Days}"
                             SelectionMode="Single"
-                            SelectionChanged="OnDaySelected" HeightRequest="600">
+                            SelectionChanged="OnDaySelected" HeightRequest="220">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                                      Span="1" />
@@ -20,9 +28,9 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
+                            <Border BackgroundColor="{Binding Color}"  Padding="5" Margin="5">
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
-                                  HeightRequest="80">
+                                  HeightRequest="80" Opacity="{Binding Opacity}">
                                     <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
                                          VerticalOptions="CenterAndExpand"
                                          HorizontalOptions="CenterAndExpand"
@@ -36,27 +44,7 @@
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="CenterAndExpand"
                                         TextColor="White"/>
-                                    <Button Grid.Column="2" Grid.RowSpan="2" Text="Start"></Button>
-                                    <Border WidthRequest="300" HeightRequest="80" TranslationY="-120" IsVisible="False"  x:Name="workoutDetailContainer">
-                                        <Grid RowDefinitions="*,6*,*">
-
-                                            <CollectionView Grid.Row="1" BackgroundColor="Transparent" x:Name="workoutDetail">
-                                                <CollectionView.ItemsLayout>
-                                                    <GridItemsLayout Orientation="Vertical"
-                                                 Span="1" />
-                                                </CollectionView.ItemsLayout>
-                                                <CollectionView.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <Label Grid.RowSpan="2" FontSize="15" Text="{Binding comment}"
-                                                      VerticalOptions="CenterAndExpand"
-                                                      HorizontalOptions="CenterAndExpand"
-                                                      TextColor="White"
-                                                        FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                                                    </DataTemplate>
-                                                </CollectionView.ItemTemplate>
-                                            </CollectionView>
-                                        </Grid>
-                                    </Border>
+                                    <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -64,7 +52,48 @@
                 </CollectionView>
             </Grid>
         </Border>
-    </StackLayout>
+
+        <Border Grid.Row="1" Scale="0.8" TranslationY="0" BackgroundColor="Transparent">
+            <Grid RowDefinitions="*,6*" >
+                <Label HorizontalOptions="Center" FontSize="30" TextColor="White" 
+               FontAttributes="Bold" TranslationY="-5" Text="This Month"></Label>
+                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="35"></Line>
+                <CollectionView Grid.Row="1" x:Name="monthView"
+                    ItemsSource="{Binding Days}"
+                    SelectionMode="Single"
+                    SelectionChanged="OnDaySelected" HeightRequest="400">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                             Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{Binding Color}" Padding="5" Margin="5">
+                                <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
+                          HeightRequest="80"  Opacity="{Binding Opacity}">
+                                    <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
+                                 VerticalOptions="CenterAndExpand"
+                                 HorizontalOptions="CenterAndExpand"
+                                 TextColor="White"
+                                   FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                    <Label Grid.Column="1" FontSize="25" FontAttributes="Bold" Text="{Binding Title}"
+                               VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="White"/>
+                                    <Label Grid.Column="1" Grid.Row="1" FontSize="18" Text="{Binding Description}"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="CenterAndExpand"
+                                TextColor="White"/>
+                                    <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </Border>
+    </Grid>
 
 
 </ContentPage>

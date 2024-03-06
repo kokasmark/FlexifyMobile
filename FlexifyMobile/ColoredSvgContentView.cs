@@ -20,6 +20,8 @@ namespace FlexifyMobile
              BindableProperty.Create(nameof(IsFront), typeof(bool), typeof(ColoredSvgContentView), default(bool));
         Dictionary<string,int> frontTips = new Dictionary<string, int>();
         Dictionary<string, int> backTips = new Dictionary<string, int>();
+        int timespan = 30;
+        string token = "";
         public bool IsFront
         {
             get { return (bool)GetValue(IsFrontProperty); }
@@ -40,9 +42,17 @@ namespace FlexifyMobile
         {
             database = new FlexifyDatabase();
             List<User> users = database.GetItemsAsync();
-            string t = users[users.Count-1].token;
-            GetUserMusclesWorked(t,30);
+            token = users[users.Count-1].token;
+            GetUserMusclesWorked(token,timespan);
         }
+        
+        public void ChangeTimeSpan(int timespan)
+        {
+            this.timespan = timespan;
+            GetUserMusclesWorked(token, timespan);
+            canvasView.InvalidateSurface();
+        }
+
         public void Tips(bool front)
         {
             for(int ii = 0; ii < 4; ii++)
@@ -147,14 +157,14 @@ namespace FlexifyMobile
                         paint.Color = GetFillColorBasedOnPathId(id);
 
                         // Draw the path on the canvas
+
                         SKPath path = SKPath.ParseSvgPathData(dAttribute);
                         canvas.DrawPath(path, paint);
                     }
                 }
             }
-            //Tips(true);
+            
         }
-
         async void GetUserMusclesWorked(string token,int timespan)
         {
             var client = new HttpClient();
@@ -213,7 +223,7 @@ namespace FlexifyMobile
             catch (Exception e)
             {
                 Console.WriteLine("Flexify Error: " + e);
-                return SKColor.Parse("#3C6FAA");
+                return SKColor.Parse("#3f8de6");
             }
             int strength = 0;
             try
@@ -247,12 +257,12 @@ namespace FlexifyMobile
             }
             catch
             {
-                return SKColor.Parse("#3C6FAA");
+                return SKColor.Parse("#3f8de6");
             }
             switch (strength)
             {
                 case 0:
-                    return SKColor.Parse("#3C6FAA");
+                    return SKColor.Parse("#3f8de6");
                 case 1:
                     return SKColor.Parse("#FBBB21");
                 case 2:
@@ -260,7 +270,7 @@ namespace FlexifyMobile
                 case 3:
                     return SKColor.Parse("#EE3E32");
                 default:
-                    return SKColor.Parse("#3C6FAA");
+                    return SKColor.Parse("#3f8de6");
             }
         }
 
