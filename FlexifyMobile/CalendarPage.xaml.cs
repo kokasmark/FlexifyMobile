@@ -93,15 +93,6 @@ public partial class CalendarPage : ContentPage
 
     }
 
-    private void home_btn_Clicked(object sender, EventArgs e)
-    {
-        Shell.Current.GoToAsync("//HomePage", true);
-    }
-
-    private void diet_btn_Clicked(object sender, EventArgs e)
-    {
-        Shell.Current.GoToAsync("//DietPage", true);
-    }
     async void getDates(string token, string d)
     {
         var client = new HttpClient();
@@ -159,5 +150,9 @@ public partial class CalendarPage : ContentPage
     private void Home_Clicked(object sender, EventArgs e)
     {
         Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
+    }
+    private void Diet_Clicked(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync($"//DietPage", false);
     }
 }

@@ -7,7 +7,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
-        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}"/>
+        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}" Clicked="Diet_Clicked"/>
         <ToolbarItem IconImageSource="{StaticResource Calendar}"/>
         <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
     </ContentPage.ToolbarItems>
@@ -71,7 +71,9 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
+                            
                             <Border BackgroundColor="{Binding Color}" Padding="5" Margin="5">
+                                
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                           HeightRequest="80"  Opacity="{Binding Opacity}">
                                     <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
