@@ -1,6 +1,7 @@
 using Microsoft.Maui.Controls;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
+using System.Collections.ObjectModel;
 using System.Text.Json;
 
 namespace FlexifyMobile;
@@ -26,6 +27,32 @@ public partial class DietPage : ContentPage
     }
     void InatializeDiet()
     {
+        ObservableCollection<Meal> breakfast = new ObservableCollection<Meal>();
+        ObservableCollection<Meal> lunch = new ObservableCollection<Meal>();
+        ObservableCollection<Meal> dinner = new ObservableCollection<Meal>();
+        ObservableCollection<Meal> snacks = new ObservableCollection<Meal>();
+
+        foreach (Meal meal in dietResult.json.breakfast)
+        {
+            breakfast.Add(meal);
+        }
+        foreach (Meal meal in dietResult.json.lunch)
+        {
+            lunch.Add(meal);
+        }
+        foreach (Meal meal in dietResult.json.dinner)
+        {
+            dinner.Add(meal);
+        }
+        foreach (Meal meal in dietResult.json.snacks)
+        {
+            snacks.Add(meal);
+        }
+
+        foods_breakfast.ItemsSource = breakfast;
+        foods_lunch.ItemsSource = lunch;
+        foods_dinner.ItemsSource = dinner;
+        foods_snacks.ItemsSource = snacks;
 
     }
     async void getDiet(string token, string d)

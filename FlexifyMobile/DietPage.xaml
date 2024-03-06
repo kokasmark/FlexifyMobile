@@ -34,10 +34,10 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                            <Border BackgroundColor="{DynamicResource Primary}" HeightRequest="20" Margin="5">
                                 <Grid ColumnDefinitions="2*,*">
-                                    <Label Text="{Binding Name}"></Label>
-                                    <Label Grid.Column="1" Text="{Binding Calories}"></Label>
+                                    <Label Text="{Binding name}"></Label>
+                                    <Label Grid.Column="1" Text="{Binding calories}"></Label>
                                 </Grid>
                             </Border>
                         </DataTemplate>
@@ -65,7 +65,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                            <Border BackgroundColor="{DynamicResource Primary}" HeightRequest="20" Margin="5">
                                 <Grid ColumnDefinitions="2*,*">
                                     <Label Text="{Binding Name}"></Label>
                                     <Label Grid.Column="1" Text="{Binding Calories}"></Label>
@@ -96,7 +96,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                            <Border BackgroundColor="{DynamicResource Primary}" HeightRequest="20" Margin="5">
                                 <Grid ColumnDefinitions="2*,*">
                                     <Label Text="{Binding Name}"></Label>
                                     <Label Grid.Column="1" Text="{Binding Calories}"></Label>
@@ -117,9 +117,8 @@
   WidthRequest="2"  
   HorizontalOptions="Fill" />
 
-
                 <CollectionView Grid.Column="1" x:Name="foods_snacks"
-    SelectionMode="Single" BackgroundColor="Beige">
+    SelectionMode="Single" BackgroundColor="#305886">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                 Span="1" />
@@ -127,7 +126,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Background}" HeightRequest="20" Margin="5">
+                            <Border BackgroundColor="{Binding Primary}" HeightRequest="20" Margin="5">
                                 <Grid ColumnDefinitions="2*,*">
                                     <Label Text="{Binding Name}"></Label>
                                     <Label Grid.Column="1" Text="{Binding Calories}"></Label>
