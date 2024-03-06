@@ -26,6 +26,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     FlexifyDatabase database;
     public ObservableCollection<DayViewModel> Days { get; set; }
     string token;
+
+    bool swipedUp = false;
     
     void InitializeWorkouts()
     {
@@ -68,6 +70,26 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
         InitializeWorkouts();
         StartAnim(500);
+        StartBounceAnimation(calendarCollectionView);
+        AutoRotate();
+    }
+    private  async Task BounceAnimation(View view)
+    {
+        await view.ScaleYTo(0.999, 100, Easing.SinOut);
+        await view.ScaleYTo(1.01, 100, Easing.SinOut);
+        await view.ScaleYTo(1, 100, Easing.SinOut);
+    }
+    public  async Task StartBounceAnimation(View view)
+    {
+        while (true)
+        {
+            if (!swipedUp)
+            {
+                await BounceAnimation(view);
+                await BounceAnimation(view);
+            }
+            await Task.Delay(2000); // Wait for 2 seconds before repeating
+        }
     }
 
     async void StartAnim(uint speed)
@@ -76,6 +98,17 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         muscleView_back.FadeTo(0.1f, speed);
         muscleView_back.TranslateTo(280, 225, speed);
         muscleView_front.TranslateTo(0, 200, speed);
+    }
+    async Task AutoRotate()
+    {
+        while (true)
+        {
+            if (!swipedUp)
+            {
+                Rotate(1000);
+            }
+            await Task.Delay(5000); 
+        }
     }
     async void Rotate(uint speed)
     {
@@ -257,9 +290,11 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                 break;
             case SwipeDirection.Up:
                 WorkoutsToggle(true);
+                swipedUp = true;
                 break;
             case SwipeDirection.Down:
                 WorkoutsToggle(false);
+                swipedUp = false;
                 break;
         }
         

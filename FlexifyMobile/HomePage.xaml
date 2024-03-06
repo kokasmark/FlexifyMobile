@@ -37,6 +37,7 @@
                 </VisualStateGroupList>
             </Setter>
         </Style>
+        
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
@@ -109,7 +110,17 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal"></VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"></Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
 
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                   HeightRequest="80">
                             
