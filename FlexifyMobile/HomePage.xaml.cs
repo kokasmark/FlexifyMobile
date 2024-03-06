@@ -178,7 +178,9 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                     dayViewModel = new DayViewModel {
                         Day = monthsShort[DateTime.Now.Month - 1] + "\n" + DateTime.Now.Day.ToString(),
                         Description = workoutData != null ? timeString : "No data",
-                        Title = workoutData != null ? workoutData.data[0].name : "No data"
+                        Title = workoutData != null ? workoutData.data[0].name : "No data",
+                        Color = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6"),
+                        IsFinished = workoutData.data[0].isFinished != 1
                     };
                     BindingContext = dayViewModel;
                 }

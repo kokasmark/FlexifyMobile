@@ -70,7 +70,7 @@
         </Border>
         
         
-        <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="0"
+        <Border BackgroundColor="{Binding Color}" Padding="5" Margin="0"
                 Grid.Row="2" Grid.ColumnSpan="2" HeightRequest="80" TranslationY="-65" WidthRequest="350" x:Name="todays_workout">
             <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*">
                 <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
@@ -86,7 +86,8 @@
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
             TextColor="White"/>
-                <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}"></ImageButton>
+                <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
+                <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}"/>
             </Grid>
         </Border>
 

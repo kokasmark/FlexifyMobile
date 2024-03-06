@@ -6,6 +6,7 @@
     xmlns:res="clr-namespace:FlexifyMobile.Resources">
 
     <FontImage x:Key="Play" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Play}"/>
+    <FontImage x:Key="Checked" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Check}"/>
     
     <FontImage x:Key="Home" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Home}"/>
     <FontImage x:Key="Diet" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Carrot}"/>

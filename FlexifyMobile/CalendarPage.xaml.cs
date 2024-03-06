@@ -63,7 +63,7 @@ public partial class CalendarPage : ContentPage
                 Title = data != null ? data.data[0].name : "No data",
                 Color = data.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6"),
                 IsFinished = int.Parse(date_parsed[2]) >= DateTime.Today.Day ?  data.data[0].isFinished != 1 : false,
-                Opacity = (data.data[0].isFinished != 1 && int.Parse(date_parsed[2]) >= DateTime.Today.Day) ? 1 : 0.2,
+                Opacity = (data.data[0].isFinished != 1 && int.Parse(date_parsed[2]) >= DateTime.Today.Day) ? 1 : 0.5,
             };
             Days.Add(d);
 

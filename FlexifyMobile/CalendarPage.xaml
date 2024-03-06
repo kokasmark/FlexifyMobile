@@ -45,6 +45,7 @@
                                         HorizontalOptions="CenterAndExpand"
                                         TextColor="White"/>
                                     <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
+                                    
                                 </Grid>
                             </Border>
                         </DataTemplate>
