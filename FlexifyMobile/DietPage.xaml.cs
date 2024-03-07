@@ -24,14 +24,19 @@ public partial class DietPage : ContentPage
         database = new FlexifyDatabase();
         List<User> users = database.GetItemsAsync();
         token = users[users.Count - 1].token;
-        string date = $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{3:D2}";
+        string date = $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}";
         PageDiet.Title = date;
-        getDiet(token,date);//DateTime.Now.Day
+        getDiet(token,date);
     }
-
-    private void Home_Clicked(object sender, EventArgs e)
+    protected async override void OnAppearing()
     {
-        Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
+        base.OnAppearing();
+        hide.IsVisible = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = true;
+        await Task.Delay(100);
     }
     void InatializeDiet()
     {
@@ -41,28 +46,33 @@ public partial class DietPage : ContentPage
         ObservableCollection<Meal> snacks = new ObservableCollection<Meal>();
 
         MealSummaryViewModel viewModel = new MealSummaryViewModel();
+        try
+        {
+            foreach (Meal meal in dietResult.json.breakfast)
+            {
+                breakfast.Add(meal);
+                viewModel.BreakfastTotalCalories += meal.calories;
+            }
+            foreach (Meal meal in dietResult.json.lunch)
+            {
+                lunch.Add(meal);
+                viewModel.LunchTotalCalories += meal.calories;
+            }
+            foreach (Meal meal in dietResult.json.dinner)
+            {
+                dinner.Add(meal);
+                viewModel.DinnerTotalCalories += meal.calories;
+            }
+            foreach (Meal meal in dietResult.json.snacks)
+            {
+                snacks.Add(meal);
+                viewModel.SnacksTotalCalories += meal.calories;
+            }
+        }
+        catch
+        {
 
-        foreach (Meal meal in dietResult.json.breakfast)
-        {
-            breakfast.Add(meal);
-            viewModel.BreakfastTotalCalories += meal.calories;
         }
-        foreach (Meal meal in dietResult.json.lunch)
-        {
-            lunch.Add(meal);
-            viewModel.LunchTotalCalories += meal.calories;
-        }
-        foreach (Meal meal in dietResult.json.dinner)
-        {
-            dinner.Add(meal);
-            viewModel.DinnerTotalCalories += meal.calories;
-        }
-        foreach (Meal meal in dietResult.json.snacks)
-        {
-            snacks.Add(meal);
-            viewModel.SnacksTotalCalories += meal.calories;
-        }
-
         // Set the BindingContext to the viewModel
         this.BindingContext = viewModel;
 
@@ -109,8 +119,14 @@ public partial class DietPage : ContentPage
             });
         }
     }
+    private void Home_Clicked(object sender, EventArgs e)
+    {
+        hide.IsVisible = true;
+        Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
+    }
     private void Calendar_Clicked(object sender, EventArgs e)
     {
+        hide.IsVisible = true;
         Shell.Current.GoToAsync($"//CalendarPage", false);
     }
 }

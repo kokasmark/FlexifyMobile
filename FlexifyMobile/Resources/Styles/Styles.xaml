@@ -6,8 +6,13 @@
     xmlns:res="clr-namespace:FlexifyMobile.Resources">
 
     <FontImage x:Key="Play" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Play}"/>
+    <FontImage x:Key="Pause" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Pause}"/>
+    <FontImage x:Key="Skip" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.ArrowAltCircleRight}"/>
     <FontImage x:Key="Checked" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Check}"/>
     <FontImage x:Key="Trash" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.MinusCircle}"/>
+    <FontImage x:Key="Reps" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.TimesCircle}"/>
+    <FontImage x:Key="Weight" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Dumbbell}"/>
+    <FontImage x:Key="Time" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Times}"/>
     
     <FontImage x:Key="Home" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Home}"/>
     <FontImage x:Key="Diet" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Carrot}"/>

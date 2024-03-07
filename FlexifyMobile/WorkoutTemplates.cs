@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace FlexifyMobile
 {
-
     public class WorkoutTemplate
     {
         public Template[] templates { get; set; }
         public bool success { get; set; }
-    }
+
+        public WorkoutTemplate()
+        {
+
+        }
+}
 
     public class Template
     {

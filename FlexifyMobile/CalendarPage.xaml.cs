@@ -22,6 +22,16 @@ public partial class CalendarPage : ContentPage
         token = users[users.Count - 1].token;
         getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
     }
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        hide.IsVisible = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = true;
+        await Task.Delay(100);
+    }
     void InitializeWorkouts()
     {
         string[] monthsShort = new string[] {"Jan", "Feb", "Mar", "Apr",
@@ -150,10 +160,17 @@ public partial class CalendarPage : ContentPage
     }
     private void Home_Clicked(object sender, EventArgs e)
     {
+        hide.IsVisible = true;
         Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
     }
     private void Diet_Clicked(object sender, EventArgs e)
     {
+        hide.IsVisible = true;
         Shell.Current.GoToAsync($"//DietPage", false);
+    }
+    private void Start_Workout(object sender, EventArgs e)
+    {
+        hide.IsVisible = true;
+        Shell.Current.GoToAsync($"//WorkoutPage", false);
     }
 }

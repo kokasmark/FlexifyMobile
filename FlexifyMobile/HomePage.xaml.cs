@@ -30,6 +30,30 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
 
     bool swipedUp = false;
     
+   
+    public HomePage()
+	{
+        InitializeComponent();
+        database = new FlexifyDatabase();
+        List<User> users = database.GetItemsAsync();
+        token = users[users.Count - 1].token;
+        GetUserInformation(token);
+        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
+        InitializeWorkouts();
+        StartAnim(500);
+        StartBounceAnimation(calendarCollectionView);
+        AutoRotate();
+    }
+    protected async override void OnAppearing()
+    {
+        base.OnAppearing();
+        hide.IsVisible = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = false;
+        await Task.Delay(100);
+        imgLoader.IsAnimationPlaying = true;
+        await Task.Delay(100);
+    }
     void InitializeWorkouts()
     {
         Days = new ObservableCollection<DayViewModel>();
@@ -40,7 +64,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             Template template = workoutData.templates[i];
             string description = "";
             var ii = 0;
-            foreach(Json exercise in template.json)
+            foreach (Json exercise in template.json)
             {
                 description += $"{exercise.set_data.Length}x {exercise.name}";
                 if (ii < template.json.Length - 1)
@@ -60,19 +84,6 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         }
 
         calendarCollectionView.ItemsSource = Days;
-    }
-    public HomePage()
-	{
-        InitializeComponent();
-        database = new FlexifyDatabase();
-        List<User> users = database.GetItemsAsync();
-        token = users[users.Count - 1].token;
-        GetUserInformation(token);
-        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
-        InitializeWorkouts();
-        StartAnim(500);
-        StartBounceAnimation(calendarCollectionView);
-        AutoRotate();
     }
     private  async Task BounceAnimation(View view)
     {
@@ -228,7 +239,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                         Description = workoutData != null ? timeString : "No data",
                         Title = workoutData != null ? workoutData.data[0].name : "No data",
                         Color = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6"),
-                        IsFinished = workoutData.data[0].isFinished != 1
+                        IsFinished = workoutData.data[0].isFinished == 1,
+                        IsVisible = workoutData.data[0].isFinished != 1
                     };
                     BindingContext = dayViewModel;
                 }
@@ -362,14 +374,22 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
 
     private void Diet_Clicked(object sender, EventArgs e)
     {
+        hide.IsVisible = true;
         Shell.Current.GoToAsync($"//DietPage", false);
     }
     private void Other_Clicked(object sender, EventArgs e)
     {
-
+        hide.IsVisible = true;
+        Shell.Current.GoToAsync($"//WorkoutPage", false);
     }
     private void Calendar_Clicked(object sender, EventArgs e)
     {
+        hide.IsVisible = true;
         Shell.Current.GoToAsync($"//CalendarPage", false);
+    }
+    private void Start_Workout(object sender, EventArgs e)
+    {
+        hide.IsVisible = true;
+        Shell.Current.GoToAsync($"//WorkoutPage", false);
     }
 }

@@ -2,6 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlexifyMobile.MainPage" BackgroundColor="{DynamicResource Background}">
+
+    <ItemGroup>
+        <MauiSplashScreen Include="Resources\Splash\splashscreen.svg" />
+    </ItemGroup>
     
     <Grid RowDefinitions="1*,0.2*,0.2*,0.2*, 1*">
         

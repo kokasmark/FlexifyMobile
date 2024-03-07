@@ -182,6 +182,11 @@
                 </CollectionView>
             </Grid>
         </Border>
+        <Border Grid.RowSpan="4" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8">
+            <Grid RowDefinitions="*">
+                <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
+            </Grid>
+        </Border>
     </Grid>
 
 </ContentPage>

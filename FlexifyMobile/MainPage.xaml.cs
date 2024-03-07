@@ -6,12 +6,13 @@ namespace FlexifyMobile
     public partial class MainPage : ContentPage
     {
         FlexifyDatabase database;
+        string token;
         public MainPage()
         {
+            InitializeComponent();
             database = new FlexifyDatabase();
             List<User> users = database.GetItemsAsync();
-            TryLoggingIn(users[users.Count - 1].token);
-            InitializeComponent();
+            token = users[users.Count - 1].token;
             this.BindingContext = this;
         }
         protected async override void OnAppearing()
@@ -21,6 +22,8 @@ namespace FlexifyMobile
             imgLoader.IsAnimationPlaying = false;
             await Task.Delay(100);
             imgLoader.IsAnimationPlaying = true;
+            await Task.Delay(100);
+            TryLoggingIn(token);
         }
         async void TryLoggingIn(string token)
         {
@@ -43,7 +46,7 @@ namespace FlexifyMobile
             }
             catch
             {
-                hide.IsVisible = true;
+                hide.IsVisible = false;
             }
         }
         private async void login_Btn_Clicked(object sender, EventArgs e)

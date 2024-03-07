@@ -48,7 +48,6 @@
     </ContentPage.ToolbarItems>
 
     <Grid RowDefinitions="*,3*,*" ColumnDefinitions="*,*" TranslationY="0">
-
         <BoxView Color="Transparent" Grid.RowSpan="3" Grid.ColumnSpan="2">
             <BoxView.GestureRecognizers>
                 <SwipeGestureRecognizer Direction="Left" Swiped="Swipe"/>
@@ -87,7 +86,9 @@
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
             TextColor="White"/>
-                <ImageButton Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Play}" IsVisible="{Binding IsFinished}"></ImageButton>
+                <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent" IsVisible="{Binding IsVisible}">
+                    <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout"></ImageButton>
+                </Border>
                 <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}"/>
             </Grid>
         </Border>
@@ -132,12 +133,16 @@
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="CenterAndExpand"
                         TextColor="White"/>
-                            <ImageButton Grid.Column="2" Grid.RowSpan="2" HeightRequest="40" Source="{StaticResource Play}"></ImageButton>
+                            <ImageButton Grid.Column="2" Grid.RowSpan="2" HeightRequest="40" Clicked="Start_Workout" Source="{StaticResource Play}"></ImageButton>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
+        <Border Grid.RowSpan="3" Grid.ColumnSpan="2"  BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8">
+            <Grid RowDefinitions="*">
+                <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
+            </Grid>
+        </Border>
     </Grid>
 </ContentPage>

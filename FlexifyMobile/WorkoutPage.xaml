@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FlexifyMobile.WorkoutPage"
+             Title="WorkoutPage" BackgroundColor="{DynamicResource Background}"
+             xmlns:local="clr-namespace:FlexifyMobile">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
+        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}"/>
+        <ToolbarItem IconImageSource="{StaticResource Calendar_Hide}" Clicked="Calendar_Clicked"/>
+        <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
+    </ContentPage.ToolbarItems>
+    
+    <Grid RowDefinitions="*,3.3*,*" ColumnDefinitions="*,*">
+        <Image Grid.ColumnSpan="2" Scale="4" TranslationY="-170"  Source="circle.png" ZIndex="1"></Image>
+        <Grid Grid.ColumnSpan="2" BackgroundColor="Transparent" ZIndex="2" x:Name="exercise_grid" RowDefinitions="*,*,*" ColumnDefinitions="2*,*,*" Opacity="0">
+            <Label Text="Exercise" TextColor="White" FontAttributes="Bold" FontSize="40" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="0" TranslationY="20"></Label>
+            <Label Text="0/5" TextColor="White" FontAttributes="Bold" FontSize="40" HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="1" TranslationY="20"></Label>
+
+            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2"/>
+            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="1"/>
+            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="2"/>
+
+            <Label Text="10" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2"></Label>
+            <Label Text="20" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="1"></Label>
+            <Label Text="30" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="2"></Label>
+        </Grid>
+        <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding timerString}" FontSize="80" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="1" />
+        <Border Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="muscleView_front">
+            <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300" TranslationX="-55" TranslationY="-50" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
+        </Border>
+        <Border  Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="muscleView_back" Opacity="0">
+            <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300"  TranslationX="115" TranslationY="-25"  Scale="1.4" RotationX="180" BackgroundColor="Transparent" IsFront="False"/>
+        </Border>
+        
+        <Image Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="180"  Source="circle.png"></Image>
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="20" Background="Transparent" Stroke="Transparent">
+            <Grid ColumnDefinitions="*,*,*">
+                <ImageButton Source="{StaticResource Play}" HeightRequest="60"></ImageButton>
+                <ImageButton Grid.Column="1" Source="{StaticResource Pause}" HeightRequest="60"></ImageButton>
+                <ImageButton Grid.Column="2" Source="{StaticResource Skip}" HeightRequest="60"></ImageButton>
+            </Grid>
+        </Border>
+        <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8" Grid.ColumnSpan="2" ZIndex="10">
+            <Grid RowDefinitions="*">
+                <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
+            </Grid>
+        </Border>
+    </Grid>
+    
+</ContentPage>

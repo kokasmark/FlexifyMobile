@@ -21,5 +21,9 @@
         Title="Diet"
         ContentTemplate="{DataTemplate local:DietPage}"
         Route="DietPage" />
+    <ShellContent
+        Title="Workout"
+        ContentTemplate="{DataTemplate local:WorkoutPage}"
+        Route="WorkoutPage" />
 
 </Shell>
