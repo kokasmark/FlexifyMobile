@@ -1,14 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FlexifyMobile.MainPage" BackgroundColor="{DynamicResource Background}">
+             x:Class="FlexifyMobile.MainPage" BackgroundColor="#3f8de6">
 
-    <ItemGroup>
-        <MauiSplashScreen Include="Resources\Splash\splashscreen.svg" />
-    </ItemGroup>
     
-    <Grid RowDefinitions="1*,0.2*,0.2*,0.2*, 1*">
-        
+    <Grid RowDefinitions="1*,0.2*,0.2*,0.2*, 1*" >
+
         <Image Grid.Row="0" Source="logo.webp" WidthRequest="250"></Image>
         <Border BackgroundColor="Transparent" Grid.Row="1" HeightRequest="50" WidthRequest="200" Stroke="{DynamicResource Primary}" Padding="5">
             <Entry TextColor="White" x:Name="username_Ent" Placeholder="Username" PlaceholderColor="White"></Entry>
@@ -18,7 +15,7 @@
         </Border>
         <Label x:Name="status_lbl" Text="{Binding status}"/>
         <Button x:Name="login_Btn" Grid.Row="3" WidthRequest="200" HeightRequest="50" Text="Login" Clicked="login_Btn_Clicked"/>
-        <Border Grid.RowSpan="5" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="true">
+        <Border Grid.RowSpan="5" BackgroundColor="#3f8de6" x:Name="hide" IsVisible="true">
             <Grid RowDefinitions="2*,*,*,2*">
                 <Image Grid.Row="1" Source="logo.webp" WidthRequest="250"></Image>
                 <Image x:Name="imgLoader" Grid.Row="2" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>

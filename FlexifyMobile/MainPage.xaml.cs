@@ -46,7 +46,11 @@ namespace FlexifyMobile
             }
             catch
             {
-                hide.IsVisible = false;
+                await Device.InvokeOnMainThreadAsync(async () =>
+                {
+                    hide.IsVisible = false;
+                });
+               
             }
         }
         private async void login_Btn_Clicked(object sender, EventArgs e)
@@ -71,15 +75,16 @@ namespace FlexifyMobile
             {
                 var resdata = await response.Content.ReadAsStringAsync();
                 token = JsonSerializer.Deserialize<LoginResult>(resdata);
+                await database.SaveItemAsync(new User(username, token.token));
+                // Use Device.InvokeOnMainThreadAsync to update the UI on the main thread
+                await Device.InvokeOnMainThreadAsync(async () =>
+                {
+                    Console.WriteLine("flexify_token_home:" + token.token);
+                    Shell.Current.GoToAsync($"//HomePage?Token={token.token}", true);
+                });
             }
             
-            await database.SaveItemAsync(new User(username,token.token));
-            // Use Device.InvokeOnMainThreadAsync to update the UI on the main thread
-            await Device.InvokeOnMainThreadAsync(async () =>
-            {
-                Console.WriteLine("flexify_token_home:" + token.token);
-                Shell.Current.GoToAsync($"//HomePage?Token={token.token}", true);
-            });
+           
         }
     }
 }
