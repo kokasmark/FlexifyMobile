@@ -29,8 +29,10 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     string token;
 
     bool swipedUp = false;
-    
-   
+    WorkoutTemplate workoutData;
+
+
+
     public HomePage()
 	{
         InitializeComponent();
@@ -57,7 +59,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     void InitializeWorkouts()
     {
         Days = new ObservableCollection<DayViewModel>();
-        WorkoutTemplate workoutData = getTemplates(token).Result;
+        workoutData = getTemplates(token).Result;
         for (int i = 0; i < workoutData.templates.Length; i++)
         {
 
@@ -125,24 +127,27 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     }
     async void Rotate(uint speed)
     {
-        front = !front;
-        if (front == false)
+        if (!swipedUp)
         {
-            muscleView_front.FadeTo(0.1f, speed);
-            muscleView_back.FadeTo(1, speed);
-            muscleView_back.ScaleTo(1.4, speed);
-            muscleView_front.ScaleTo(1.3, speed);
-            muscleView_back.TranslateTo(170, 225, speed);
-            muscleView_front.TranslateTo(110, 200, speed);
-        }
-        else
-        {
-            muscleView_front.FadeTo(1f, speed);
-            muscleView_back.FadeTo(0.1f, speed);
-            muscleView_back.ScaleTo(1.2, speed);
-            muscleView_front.ScaleTo(1.5, speed);
-            muscleView_back.TranslateTo(280, 225, speed);
-            muscleView_front.TranslateTo(0, 200, speed);
+            front = !front;
+            if (front == false)
+            {
+                muscleView_front.FadeTo(0.1f, speed);
+                muscleView_back.FadeTo(1, speed);
+                muscleView_back.ScaleTo(1.4, speed);
+                muscleView_front.ScaleTo(1.3, speed);
+                muscleView_back.TranslateTo(170, 225, speed);
+                muscleView_front.TranslateTo(110, 200, speed);
+            }
+            else
+            {
+                muscleView_front.FadeTo(1f, speed);
+                muscleView_back.FadeTo(0.1f, speed);
+                muscleView_back.ScaleTo(1.2, speed);
+                muscleView_front.ScaleTo(1.5, speed);
+                muscleView_back.TranslateTo(280, 225, speed);
+                muscleView_front.TranslateTo(0, 200, speed);
+            }
         }
     }
     async void GetUserInformation(string token)
@@ -389,7 +394,14 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     }
     private void Start_Workout(object sender, EventArgs e)
     {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//WorkoutPage", false);
+        var button = sender as ImageButton;
+        var dayViewModel = button.CommandParameter as DayViewModel;
+        var template = dayViewModel.Data;
+
+        // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
+        if (template != null)
+        {
+            Navigation.PushAsync(new WorkoutPage(template));
+        }
     }
 }

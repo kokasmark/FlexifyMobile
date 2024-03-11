@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlexifyMobile.WorkoutPage"
              Title="WorkoutPage" BackgroundColor="{DynamicResource Background}"
-             xmlns:local="clr-namespace:FlexifyMobile">
+             xmlns:local="clr-namespace:FlexifyMobile"
+             x:Name="PageWorkout">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
@@ -13,19 +14,16 @@
     </ContentPage.ToolbarItems>
     
     <Grid RowDefinitions="*,3.3*,*" ColumnDefinitions="*,*">
-        <Image Grid.ColumnSpan="2" Scale="4" TranslationY="-170"  Source="circle.png" ZIndex="1"></Image>
-        <Grid Grid.ColumnSpan="2" BackgroundColor="Transparent" ZIndex="2" x:Name="exercise_grid" RowDefinitions="*,*,*" ColumnDefinitions="2*,*,*" Opacity="0">
-            <Label Text="Exercise" TextColor="White" FontAttributes="Bold" FontSize="40" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="0" TranslationY="20"></Label>
-            <Label Text="0/5" TextColor="White" FontAttributes="Bold" FontSize="40" HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="1" TranslationY="20"></Label>
-
-            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2"/>
-            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="1"/>
-            <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="2"/>
-
-            <Label Text="10" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2"></Label>
-            <Label Text="20" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="1"></Label>
-            <Label Text="30" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="2"></Label>
-        </Grid>
+        <BoxView Color="Transparent" Grid.RowSpan="3" Grid.ColumnSpan="2">
+            <BoxView.GestureRecognizers>
+                <SwipeGestureRecognizer Direction="Left" Swiped="Swipe"/>
+                <SwipeGestureRecognizer Direction="Right" Swiped="Swipe"/>
+                <SwipeGestureRecognizer Direction="Up" Swiped="Swipe"/>
+                <SwipeGestureRecognizer Direction="Down" Swiped="Swipe"/>
+            </BoxView.GestureRecognizers>
+        </BoxView>
+        <Image x:Name="HeaderBg" Grid.ColumnSpan="2" Scale="4" TranslationY="-170"  Source="circle.png" ZIndex="1"></Image>
+       
         <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding timerString}" FontSize="80" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="1" />
         <Border Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="muscleView_front">
             <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300" TranslationX="-55" TranslationY="-50" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
@@ -34,12 +32,27 @@
             <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300"  TranslationX="115" TranslationY="-25"  Scale="1.4" RotationX="180" BackgroundColor="Transparent" IsFront="False"/>
         </Border>
         
-        <Image Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="180"  Source="circle.png"></Image>
+        <Image x:Name="ControlsBg" Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="225"  Source="circle.png"></Image>
+        <Image Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="180"  IsVisible="{Binding Details}"  Source="circle.png"></Image>
         <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="20" Background="Transparent" Stroke="Transparent">
-            <Grid ColumnDefinitions="*,*,*">
-                <ImageButton Source="{StaticResource Play}" HeightRequest="60"></ImageButton>
-                <ImageButton Grid.Column="1" Source="{StaticResource Pause}" HeightRequest="60"></ImageButton>
-                <ImageButton Grid.Column="2" Source="{StaticResource Skip}" HeightRequest="60"></ImageButton>
+            <Grid ColumnDefinitions="*,*" TranslationY="0">
+                <Grid Grid.ColumnSpan="2" BackgroundColor="Transparent" ZIndex="2" x:Name="exercise_grid" RowDefinitions="*,*,*" ColumnDefinitions="2*,*,*" IsVisible="{Binding Details}">
+                    <Image Grid.ColumnSpan="3" Scale="10" TranslationY="0"  Source="circle.png" ZIndex="0"></Image>
+                    <Label Text="{Binding CurrentWorkout.name}" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" VerticalOptions="End" Grid.Row="0" TranslationY="20"></Label>
+                    <Label Text="{Binding SetCounter}" TextColor="White" FontAttributes="Bold" FontSize="30" HorizontalOptions="Center" VerticalOptions="Start" Grid.Row="1" TranslationY="20"></Label>
+
+                    <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2"/>
+                    <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="1"/>
+                    <Image Source="{StaticResource Weight}" HeightRequest="20"  Grid.Column="2" Grid.Row="2"/>
+
+                    <Label Text="{Binding CurrentSet.reps}" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2"></Label>
+                    <Label Text="{Binding CurrentSet.weight}" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="1"></Label>
+                    <Label Text="{Binding CurrentSet.time}" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="2"></Label>
+
+                </Grid>
+                <ImageButton TranslationY="20" Grid.Column="1" Source="{StaticResource Checked}" HeightRequest="60"></ImageButton>
+                <ImageButton TranslationY="20" Grid.Column="0" BackgroundColor="{DynamicResource Primary}" Source="{StaticResource Play}" HeightRequest="60" IsVisible="{Binding Paused}"></ImageButton>
+                <ImageButton TranslationY="20" Grid.Column="0" Source="{StaticResource Pause}" HeightRequest="60"></ImageButton>
             </Grid>
         </Border>
         <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8" Grid.ColumnSpan="2" ZIndex="10">
