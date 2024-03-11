@@ -101,8 +101,8 @@
         <CollectionView Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="calendarCollectionView"
             ItemsSource="{Binding Days}"
             SelectionMode="Single"
-            HeightRequest="600"
-                        TranslationY="230" Opacity="0.5" Scale="0.8" ZIndex="1">
+            HeightRequest="625"
+                        TranslationY="240" Opacity="0.5" Scale="0.8" ZIndex="1">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
                      Span="1" />

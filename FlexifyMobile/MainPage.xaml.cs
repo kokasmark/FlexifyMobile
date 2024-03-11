@@ -13,6 +13,7 @@ namespace FlexifyMobile
             database = new FlexifyDatabase();
             List<User> users = database.GetItemsAsync();
             token = users[users.Count - 1].token;
+            user_lbl.Text = $"Logging in as {users[users.Count - 1].username}";
             this.BindingContext = this;
         }
         protected async override void OnAppearing()

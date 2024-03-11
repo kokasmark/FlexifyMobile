@@ -9,72 +9,74 @@ public partial class WorkoutPage : ContentPage
     FlexifyDatabase database;
     int seconds = 0;
     string token;
-
     Template workout;
     public WorkoutPageViewModel ViewModel { get; set; }
-    public string TimerString
-    {
-        get { return timerString; }
-        set
-        {
-            if (value != timerString)
-            {
-                timerString = value;
-                OnPropertyChanged(nameof(TimerString));
-            }
-        }
-    }
+    
 
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
     public void Next()
     {
-        try
+        if (!ViewModel.Paused)
         {
-            if (ViewModel.SetIndex < workout.json[ViewModel.ExerciseIndex].set_data.Length) ViewModel.SetIndex++;
-            else
+            try
             {
-                ViewModel.SetIndex = 0;
-                if (ViewModel.ExerciseIndex < workout.json.Length)
+                if (ViewModel.SetIndex < workout.json[ViewModel.ExerciseIndex].set_data.Length - 1) ViewModel.SetIndex++;
+                else
                 {
-                    ViewModel.ExerciseIndex++;
+                    ViewModel.SetIndex = 0;
+                    if (ViewModel.ExerciseIndex < workout.json.Length - 1)
+                    {
+                        ViewModel.ExerciseIndex++;
+                    }
+                    else
+                    {
+                        FinishWorkout();
+                    }
                 }
+                ViewModel.CurrentWorkout = workout.json[ViewModel.ExerciseIndex];
+                ViewModel.SetCounter = $"{ViewModel.SetIndex + 1}/{ViewModel.CurrentWorkout.set_data.Length}";
+                ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[ViewModel.SetIndex];
             }
-            ViewModel.CurrentWorkout = workout.json[ViewModel.ExerciseIndex];
-            ViewModel.SetCounter = $"{ViewModel.SetIndex + 1}/{ViewModel.CurrentWorkout.set_data.Length}";
-            ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[ViewModel.SetIndex];
-        }
-        catch
-        {
+            catch
+            {
 
+            }
         }
     }
     public void Previous()
     {
-        try
+        if (!ViewModel.Paused)
         {
-            if (ViewModel.SetIndex > 0) ViewModel.SetIndex--;
-            else
+            try
             {
-                if (ViewModel.ExerciseIndex > 0)
+                if (ViewModel.SetIndex > 0) ViewModel.SetIndex--;
+                else
                 {
-                    ViewModel.ExerciseIndex--;
+                    if (ViewModel.ExerciseIndex > 0)
+                    {
+                        ViewModel.ExerciseIndex--;
+                    }
+                    ViewModel.SetIndex = workout.json[ViewModel.ExerciseIndex].set_data.Length;
+
                 }
-                ViewModel.SetIndex = workout.json[ViewModel.ExerciseIndex].set_data.Length;
+                ViewModel.CurrentWorkout = workout.json[ViewModel.ExerciseIndex];
+                ViewModel.SetCounter = $"{ViewModel.SetIndex + 1}/{ViewModel.CurrentWorkout.set_data.Length}";
+                ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[ViewModel.SetIndex];
+            }
+            catch
+            {
 
             }
-            ViewModel.CurrentWorkout = workout.json[ViewModel.ExerciseIndex];
-            ViewModel.SetCounter = $"{ViewModel.SetIndex + 1}/{ViewModel.CurrentWorkout.set_data.Length}";
-            ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[ViewModel.SetIndex];
         }
-        catch
-        {
-
-        }
+    }
+    public async Task FinishWorkout()
+    {
+        ViewModel.Paused = true;
+        await Task.Delay(100);
+        done_gif.IsAnimationPlaying = false;
+        await Task.Delay(100);
+        done_gif.IsAnimationPlaying = true;
+        done_grid.FadeTo(1, 300);
+        await Task.Delay(3000);
     }
     public WorkoutPage(Template template)
 	{
@@ -83,21 +85,24 @@ public partial class WorkoutPage : ContentPage
         List<User> users = database.GetItemsAsync();
         token = users[users.Count - 1].token;
         PageWorkout.Title = template.name;
-        MuscleViewAnimation();
-		IncreaseSeconds();
-        StartBounceAnimation(ControlsBg);
         workout = template;
         ViewModel = new WorkoutPageViewModel();
         BindingContext = ViewModel;
         ViewModel.CurrentWorkout = template.json[0];
         ViewModel.SetCounter = $"1/{ViewModel.CurrentWorkout.set_data.Length}";
-        ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[0]; 
+        ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[0];
         ViewModel.Paused = false;
+        ViewModel.Title = template.name;
+        MuscleViewAnimation();
+		IncreaseSeconds();
+        StartBounceAnimation(ControlsBg);
+        
     }
     protected async override void OnAppearing()
     {
         base.OnAppearing();
         hide.IsVisible = false;
+        done_grid.Opacity = 0;
         seconds = 0;
         await Task.Delay(100);
         imgLoader.IsAnimationPlaying = false;
@@ -117,11 +122,11 @@ public partial class WorkoutPage : ContentPage
         await view.ScaleYTo(1.1, 100, Easing.SinOut);
         await view.ScaleYTo(1, 100, Easing.SinOut);
     }
-    private async Task DetailsAnimation(View view)
+    private async Task AlertAnimation()
     {
-        ViewModel.Details = true;
+        await alert_grid.FadeTo(1.0, 300);
         await Task.Delay(1000);
-        ViewModel.Details = false;
+        await alert_grid.FadeTo(0, 300);
     }
     public async Task StartBounceAnimation(View view)
     {
@@ -148,11 +153,14 @@ public partial class WorkoutPage : ContentPage
 	{
         while (true)
 		{
+            
             await Task.Delay(1000);
-			seconds++;
-            TimeSpan timer = TimeSpan.FromSeconds(seconds);
-            TimerString = $"{timer.Hours:D2}:{timer.Minutes:D2}:{timer.Seconds:D2}";
-            timer_lbl.Text = timerString;
+            if (!ViewModel.Paused)
+            {
+                seconds++;
+                TimeSpan timer = TimeSpan.FromSeconds(seconds);
+                ViewModel.TimerString = $"{timer.Hours:D2}:{timer.Minutes:D2}:{timer.Seconds:D2}";
+            }
         }
 	}
     private void Home_Clicked(object sender, EventArgs e)
@@ -173,13 +181,13 @@ public partial class WorkoutPage : ContentPage
             case SwipeDirection.Left:
                 NextAnimation(HeaderBg);
                 NextAnimation(ControlsBg);
-                DetailsAnimation(exercise_grid);
+                AlertAnimation();
                 Next();
                 break;
             case SwipeDirection.Right:
                 NextAnimation(HeaderBg);
                 NextAnimation(ControlsBg);
-                DetailsAnimation(exercise_grid);
+                AlertAnimation();
                 Previous();
                 break;
             case SwipeDirection.Up:
@@ -191,9 +199,47 @@ public partial class WorkoutPage : ContentPage
         }
 
     }
+
+    private void PauseResume(object sender, EventArgs e)
+    {
+        ViewModel.Paused = !ViewModel.Paused;
+        pause_btn.IsVisible = !ViewModel.Paused;
+        resume_btn.IsVisible = ViewModel.Paused;
+    }
+
+    private void FinishEarly(object sender, EventArgs e)
+    {
+        FinishWorkout();
+    }
 }
 public class WorkoutPageViewModel : INotifyPropertyChanged
 {
+    string title;
+    public string Title
+    {
+        get { return title; }
+        set
+        {
+            if (value != title)
+            {
+                title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+    }
+    string timerString;
+    public string TimerString
+    {
+        get { return timerString; }
+        set
+        {
+            if (value != timerString)
+            {
+                timerString = value;
+                OnPropertyChanged(nameof(TimerString));
+            }
+        }
+    }
     private bool paused;
     public bool Paused
     {

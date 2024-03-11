@@ -18,6 +18,7 @@
         <Border Grid.RowSpan="5" BackgroundColor="#3f8de6" x:Name="hide" IsVisible="true">
             <Grid RowDefinitions="2*,*,*,2*">
                 <Image Grid.Row="1" Source="logo.webp" WidthRequest="250"></Image>
+                <Label x:Name="user_lbl" TranslationY="-50" Grid.Row="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="25"/>
                 <Image x:Name="imgLoader" Grid.Row="2" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
             </Grid>
         </Border>

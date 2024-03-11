@@ -297,7 +297,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         }
         else
         {
-            calendarCollectionView.TranslateTo(0, 230, 200);
+            calendarCollectionView.TranslateTo(0, 240, 200);
             calendarCollectionView.FadeTo(0.5, 300);
             muscleView_front.FadeTo(front ? 1: 0.1, 300);
             muscleView_back.FadeTo(front ?  0.1 : 1, 300);

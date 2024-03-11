@@ -12,7 +12,7 @@
         <ToolbarItem IconImageSource="{StaticResource Calendar_Hide}" Clicked="Calendar_Clicked"/>
         <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
     </ContentPage.ToolbarItems>
-    
+
     <Grid RowDefinitions="*,3.3*,*" ColumnDefinitions="*,*">
         <BoxView Color="Transparent" Grid.RowSpan="3" Grid.ColumnSpan="2">
             <BoxView.GestureRecognizers>
@@ -23,8 +23,8 @@
             </BoxView.GestureRecognizers>
         </BoxView>
         <Image x:Name="HeaderBg" Grid.ColumnSpan="2" Scale="4" TranslationY="-170"  Source="circle.png" ZIndex="1"></Image>
-       
-        <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding timerString}" FontSize="80" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="1" />
+
+        <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding TimerString}" FontSize="80" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="1" />
         <Border Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="muscleView_front">
             <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300" TranslationX="-55" TranslationY="-50" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
         </Border>
@@ -50,9 +50,11 @@
                     <Label Text="{Binding CurrentSet.time}" TextColor="White" FontAttributes="Bold" FontSize="20" HorizontalOptions="Start" VerticalOptions="Center" Grid.Column="2" Grid.Row="2"></Label>
 
                 </Grid>
-                <ImageButton TranslationY="20" Grid.Column="1" Source="{StaticResource Checked}" HeightRequest="60"></ImageButton>
-                <ImageButton TranslationY="20" Grid.Column="0" BackgroundColor="{DynamicResource Primary}" Source="{StaticResource Play}" HeightRequest="60" IsVisible="{Binding Paused}"></ImageButton>
-                <ImageButton TranslationY="20" Grid.Column="0" Source="{StaticResource Pause}" HeightRequest="60"></ImageButton>
+                <ImageButton TranslationY="20" Grid.Column="1" Source="{StaticResource Checked}" HeightRequest="60" Clicked="FinishEarly"></ImageButton>
+                <ImageButton TranslationY="20" Grid.Column="0" x:Name="resume_btn"
+                             Source="{StaticResource Play}" HeightRequest="60" IsVisible="False" Clicked="PauseResume"></ImageButton>
+                <ImageButton TranslationY="20" Grid.Column="0" x:Name="pause_btn"
+                             Source="{StaticResource Pause}" HeightRequest="60" Clicked="PauseResume"></ImageButton>
             </Grid>
         </Border>
         <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8" Grid.ColumnSpan="2" ZIndex="10">
@@ -60,6 +62,20 @@
                 <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
             </Grid>
         </Border>
+        <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" ZIndex="5" x:Name="alert_grid" Opacity="0">
+            <Border BackgroundColor="Black" Opacity="0.8" Margin="-10"></Border>
+            <Label Text="{Binding CurrentWorkout.name}" TextColor="White" VerticalOptions="Center" 
+                   HorizontalTextAlignment="Center" FontSize="40" TranslationY="-50" FontAttributes="Bold"></Label>
+            <Label Text="{Binding SetCounter}" TextColor="White" VerticalOptions="Center" HorizontalTextAlignment="Center" FontSize="40" TranslationY="10"></Label>
+        </Grid>
+        <Grid Grid.RowSpan="3" Grid.ColumnSpan="2" ZIndex="5" x:Name="done_grid" Opacity="0">
+            <Border BackgroundColor="Black" Opacity="0.8" Margin="-10"></Border>
+            <Label Text="{Binding Title, StringFormat='{0} was finished in '}" TextColor="White" VerticalOptions="Center" 
+           HorizontalTextAlignment="Center" FontSize="20" TranslationY="60"></Label>
+            <Label Text="{Binding TimerString}" TextColor="White" VerticalOptions="Center" 
+                HorizontalTextAlignment="Center" FontSize="20" TranslationY="100" FontAttributes="Bold"></Label>
+            <Image x:Name="done_gif" Source="done.gif" IsAnimationPlaying="True"  WidthRequest="100" HeightRequest="100"></Image>
+        </Grid>
     </Grid>
     
 </ContentPage>
