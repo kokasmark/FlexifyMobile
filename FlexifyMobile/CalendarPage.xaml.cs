@@ -66,6 +66,9 @@ public partial class CalendarPage : ContentPage
             }
             string timeString = $"{start_time.Hour + 1}:{start_time.Minute:D2} - {end_time.Hour + 1}:{end_time.Minute:D2}";
             string[] date_parsed = date.Split("-");
+
+            Template template = Translator.TranslateToTemplate(data);
+
             DayViewModel d = new DayViewModel
             {
                 Day = monthsShort[int.Parse(date_parsed[1]) - 1] + "\n" + date_parsed[2],
@@ -75,6 +78,7 @@ public partial class CalendarPage : ContentPage
                 IsFinished = data.data[0].isFinished == 1,
                 IsVisible = int.Parse(date_parsed[2]) >= DateTime.Today.Day ? data.data[0].isFinished != 1 : false,
                 Opacity = (data.data[0].isFinished != 1 && int.Parse(date_parsed[2]) >= DateTime.Today.Day) ? 1 : 0.5,
+                Data = template
             };
             Days.Add(d);
 
@@ -171,6 +175,43 @@ public partial class CalendarPage : ContentPage
     private void Start_Workout(object sender, EventArgs e)
     {
         hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//WorkoutPage", false);
+        var button = sender as ImageButton;
+        var dayViewModel = button.CommandParameter as DayViewModel;
+        var template = dayViewModel.Data;
+
+        // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
+        if (template != null)
+        {
+            Navigation.PushAsync(new WorkoutPage(template));
+        }
+    }
+}
+public class Translator
+{
+
+    public static Template TranslateToTemplate(WorkoutDataResult workoutDataResult)
+    {
+        List<Json> tempJson = new List<Json>();
+        Template template = new Template
+        {
+            id = workoutDataResult.data[0].id,
+            name = workoutDataResult.data[0].name,
+            json = tempJson.ToArray()
+        };
+
+        foreach (Datum datum in workoutDataResult.data)
+        {
+            Json json = new Json
+            {
+                exercise_id = datum.id,
+                name = datum.name,
+                set_data = JsonSerializer.Deserialize<List<Set_Data>>(datum.json).ToArray()
+            };
+
+            
+            tempJson.Add(json);
+        }
+        template.json = tempJson.ToArray();
+        return template;
     }
 }

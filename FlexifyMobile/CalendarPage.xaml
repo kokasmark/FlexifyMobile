@@ -46,7 +46,7 @@
                                         HorizontalOptions="CenterAndExpand"
                                         TextColor="White"/>
                                     <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent" IsVisible="{Binding IsVisible}">
-                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout"></ImageButton>
+                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout" CommandParameter="{Binding .}"></ImageButton>
                                     </Border>
                                     <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}" IsVisible="{Binding IsFinished}"/>
                                 </Grid>
@@ -92,7 +92,7 @@
                                 HorizontalOptions="CenterAndExpand"
                                 TextColor="White"/>
                                     <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent"  IsVisible="{Binding IsVisible}">
-                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout"></ImageButton>
+                                        <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout" CommandParameter="{Binding .}"></ImageButton>
                                     </Border>
                                     <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}"  IsVisible="{Binding IsFinished}"/>
                                 </Grid>

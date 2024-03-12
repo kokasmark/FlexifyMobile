@@ -97,10 +97,11 @@
         Grid.Row="2" Grid.ColumnSpan="2" HeightRequest="80" TranslationY="-65" WidthRequest="350" x:Name="add_workout" IsVisible="False">
             <Label TextColor="White" FontSize="20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="No workout scheduled!" ZIndex="-1"></Label>
         </Border>
-
+        
         <CollectionView Grid.Row="3" Grid.ColumnSpan="2" Grid.RowSpan="2" x:Name="calendarCollectionView"
             ItemsSource="{Binding Days}"
             SelectionMode="Single"
+            
             HeightRequest="625"
                         TranslationY="240" Opacity="0.5" Scale="0.8" ZIndex="1">
             <CollectionView.ItemsLayout>

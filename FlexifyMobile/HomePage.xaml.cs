@@ -56,6 +56,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         imgLoader.IsAnimationPlaying = true;
         await Task.Delay(100);
     }
+   
     void InitializeWorkouts()
     {
         Days = new ObservableCollection<DayViewModel>();

@@ -1,5 +1,6 @@
 using System.ComponentModel;
 using Microsoft.Maui.Controls.Xaml;
+using Microsoft.Maui.Controls;
 
 namespace FlexifyMobile;
 
@@ -11,7 +12,7 @@ public partial class WorkoutPage : ContentPage
     string token;
     Template workout;
     public WorkoutPageViewModel ViewModel { get; set; }
-    
+    private bool isPressed = false;
 
     public void Next()
     {
@@ -93,10 +94,10 @@ public partial class WorkoutPage : ContentPage
         ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[0];
         ViewModel.Paused = false;
         ViewModel.Title = template.name;
+
         MuscleViewAnimation();
 		IncreaseSeconds();
-        StartBounceAnimation(ControlsBg);
-        
+        AnimateGlow();
     }
     protected async override void OnAppearing()
     {
@@ -110,12 +111,7 @@ public partial class WorkoutPage : ContentPage
         imgLoader.IsAnimationPlaying = true;
         await Task.Delay(100);
     }
-    private async Task BounceAnimation(View view)
-    {
-        await view.ScaleYTo(0.999, 100, Easing.SinOut);
-        await view.ScaleYTo(1.01, 100, Easing.SinOut);
-        await view.ScaleYTo(1, 100, Easing.SinOut);
-    }
+
     private async Task NextAnimation(View view)
     {
         await view.ScaleYTo(0.999, 100, Easing.SinOut);
@@ -128,14 +124,19 @@ public partial class WorkoutPage : ContentPage
         await Task.Delay(1000);
         await alert_grid.FadeTo(0, 300);
     }
-    public async Task StartBounceAnimation(View view)
+    private async Task AnimateGlow()
     {
         while (true)
         {
-            await BounceAnimation(view);
-            await BounceAnimation(view);
+            // Fade in
+            glowIndicatorRight.FadeTo(0.2, 500); // Adjust the duration as needed
+             glowIndicatorLeft.FadeTo(0.2, 500); // Adjust the duration as needed
+            await Task.Delay(500); // Adjust the delay between animations as needed
 
-            await Task.Delay(2000); // Wait for 2 seconds before repeating
+            // Fade out
+             glowIndicatorRight.FadeTo(0, 500); // Adjust the duration as needed
+             glowIndicatorLeft.FadeTo(0, 500); // Adjust the duration as needed
+            await Task.Delay(5000); // Adjust the delay between animations as needed
         }
     }
     async Task MuscleViewAnimation()
@@ -191,10 +192,10 @@ public partial class WorkoutPage : ContentPage
                 Previous();
                 break;
             case SwipeDirection.Up:
-                ViewModel.Details = true;
+                
                 break;
             case SwipeDirection.Down:
-                ViewModel.Details = false;
+                
                 break;
         }
 
@@ -210,6 +211,20 @@ public partial class WorkoutPage : ContentPage
     private void FinishEarly(object sender, EventArgs e)
     {
         FinishWorkout();
+    }
+    private async void DisplayAlert(object sender, EventArgs e)
+    {
+        isPressed = true;
+        await Task.Delay(500);
+        if (isPressed)
+        {
+            alert_grid.FadeTo(1,300);
+        }
+    }
+    private void HideAlert(object sender, EventArgs e)
+    {
+        isPressed = false;
+        alert_grid.FadeTo(0, 300);
     }
 }
 public class WorkoutPageViewModel : INotifyPropertyChanged
