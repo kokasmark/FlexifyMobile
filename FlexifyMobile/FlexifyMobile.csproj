@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>FlexifyMobile</ApplicationTitle>
+		<ApplicationTitle>Flexify</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.flexifymobile</ApplicationId>
@@ -35,7 +35,7 @@
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\logo.webp" Color="#3f8de6" BaseSize="407,86"/>
+		<MauiSplashScreen Include="Resources\Splash\logo.webp" Color="#3f8de6" BaseSize="407,86" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
