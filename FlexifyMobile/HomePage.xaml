@@ -117,14 +117,14 @@
             <Label TextColor="White" FontSize="20" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="No workout scheduled!" ZIndex="2"></Label>
         </Border>
 
-        <Grid x:Name="templatesParent" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3">
-        <Border x:Name="swipeHint" Background="White"  HeightRequest="10" WidthRequest="100" TranslationY="40"/>
+        <Grid x:Name="templatesParent" Grid.ColumnSpan="2" Grid.RowSpan="2" Grid.Row="3" TranslationY="300">
+        <Border x:Name="swipeHint" Background="White"  HeightRequest="10" WidthRequest="100" TranslationY="-265"/>
         <CollectionView   x:Name="calendarCollectionView"
             ItemsSource="{Binding Days}"
             SelectionMode="Single"
             
             HeightRequest="625"
-                        TranslationY="300" Opacity="0.5" Scale="0.8" ZIndex="1">
+                         Opacity="0.5" Scale="0.8" ZIndex="1">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
                      Span="1" />
@@ -155,14 +155,14 @@
                         VerticalOptions="CenterAndExpand"
                         HorizontalOptions="CenterAndExpand"
                         TextColor="White"/>
-                            <ImageButton Grid.Column="2" Grid.RowSpan="2" HeightRequest="40" Clicked="Start_Workout" Source="{StaticResource Play}" CommandParameter="{Binding .}"></ImageButton>
+                            <ImageButton Grid.Column="2" Grid.RowSpan="2" HeightRequest="40" Clicked="Start_Workout" Source="{StaticResource Play}" CommandParameter="{Binding .}" ZIndex="10"></ImageButton>
                         </Grid>
                     </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
     </Grid>
-        <Border Grid.RowSpan="3" Grid.ColumnSpan="2"  BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8">
+        <Border Grid.RowSpan="3" Grid.ColumnSpan="2"  BackgroundColor="Red" x:Name="hide" IsVisible="False" Opacity="0.8">
             <Grid RowDefinitions="*">
                 <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
             </Grid>

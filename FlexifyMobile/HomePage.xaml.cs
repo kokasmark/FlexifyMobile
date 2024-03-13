@@ -354,7 +354,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     {
         if (toggle)
         {
-            calendarCollectionView.TranslateTo(0, -250, 300);
+            templatesParent.TranslateTo(0, -250, 300);
             swipeHint.FadeTo(0, 100);
             calendarCollectionView.FadeTo(1, 300);
             muscleView_front.FadeTo(0, 300);
@@ -368,7 +368,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         }
         else
         {
-            calendarCollectionView.TranslateTo(0, 300, 200);
+            templatesParent.TranslateTo(0, 300, 200);
             swipeHint.FadeTo(1, 300);
             calendarCollectionView.FadeTo(0.5, 300);
             muscleView_front.FadeTo(front ? 1: 0, 300);
