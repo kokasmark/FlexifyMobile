@@ -182,36 +182,8 @@ public partial class CalendarPage : ContentPage
         // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
         if (template != null)
         {
-            Navigation.PushAsync(new WorkoutPage(template));
+            Navigation.PushAsync(new WorkoutPage(template,true));
         }
     }
 }
-public class Translator
-{
 
-    public static Template TranslateToTemplate(WorkoutDataResult workoutDataResult)
-    {
-        List<Json> tempJson = new List<Json>();
-        Template template = new Template
-        {
-            id = workoutDataResult.data[0].id,
-            name = workoutDataResult.data[0].name,
-            json = tempJson.ToArray()
-        };
-
-        foreach (Datum datum in workoutDataResult.data)
-        {
-            Json json = new Json
-            {
-                exercise_id = datum.id,
-                name = datum.name,
-                set_data = JsonSerializer.Deserialize<List<Set_Data>>(datum.json).ToArray()
-            };
-
-            
-            tempJson.Add(json);
-        }
-        template.json = tempJson.ToArray();
-        return template;
-    }
-}

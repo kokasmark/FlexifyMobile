@@ -2,6 +2,7 @@ using System.Text.Json;
 using System.ComponentModel;
 using System.Globalization;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace FlexifyMobile;
 
@@ -18,7 +19,44 @@ public class DayViewModel
     public Color Color { get; set; }
     public Template Data;
 }
+public class Achivement
+{
+    public string Date { get; set; }
 
+    public Color Color { get; set; }
+
+    public bool Today { get; set; }
+}
+public class Translator
+{
+
+    public static Template TranslateToTemplate(WorkoutDataResult workoutDataResult)
+    {
+        List<Json> tempJson = new List<Json>();
+        Template template = new Template
+        {
+            id = workoutDataResult.data[0].id,
+            name = workoutDataResult.data[0].name,
+            json = tempJson.ToArray()
+        };
+
+        Json[] data = JsonSerializer.Deserialize<List<Json>>(workoutDataResult.data[0].json).ToArray();
+        foreach (Json d in data)
+        {
+            Json json = new Json
+            {
+                exercise_id = d.exercise_id,
+                name = d.name,
+                set_data = d.set_data
+            };
+
+
+            tempJson.Add(json);
+        }
+        template.json = tempJson.ToArray();
+        return template;
+    }
+}
 public partial class HomePage : ContentPage, INotifyPropertyChanged
 {
     bool front = true;
@@ -26,6 +64,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     WorkoutDatesResult workoutDatesResult;
     FlexifyDatabase database;
     public ObservableCollection<DayViewModel> Days { get; set; }
+    public ObservableCollection<Achivement> Achivements { get; set; }
+
     string token;
 
     bool swipedUp = false;
@@ -55,6 +95,10 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         await Task.Delay(100);
         imgLoader.IsAnimationPlaying = true;
         await Task.Delay(100);
+        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
+        InitializeWorkouts();
+
+        
     }
    
     void InitializeWorkouts()
@@ -111,9 +155,6 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     {
         muscleView_front.FadeTo(1f, speed);
         muscleView_back.FadeTo(0.1f, speed);
-        muscleView_back.TranslateTo(280, 225, speed);
-        muscleView_back.ScaleTo(1.2, speed);
-        muscleView_front.TranslateTo(0, 200, speed);
     }
     async Task AutoRotate()
     {
@@ -133,21 +174,13 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             front = !front;
             if (front == false)
             {
-                muscleView_front.FadeTo(0.1f, speed);
+                muscleView_front.FadeTo(0f, speed);
                 muscleView_back.FadeTo(1, speed);
-                muscleView_back.ScaleTo(1.4, speed);
-                muscleView_front.ScaleTo(1.3, speed);
-                muscleView_back.TranslateTo(170, 225, speed);
-                muscleView_front.TranslateTo(110, 200, speed);
             }
             else
             {
                 muscleView_front.FadeTo(1f, speed);
-                muscleView_back.FadeTo(0.1f, speed);
-                muscleView_back.ScaleTo(1.2, speed);
-                muscleView_front.ScaleTo(1.5, speed);
-                muscleView_back.TranslateTo(280, 225, speed);
-                muscleView_front.TranslateTo(0, 200, speed);
+                muscleView_back.FadeTo(0f, speed);
             }
         }
     }
@@ -169,6 +202,29 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                 Page.Title = $"Hey, {user.username}!";
             });
         }
+    }
+    async Task GetAchivements()
+    {
+        Achivements = new ObservableCollection<Achivement>();
+
+        for (int i = 1; i < DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month); i++)
+        {
+            WorkoutDataResult workoutData = getData(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}").Result;
+            Color c = new Color(1, 1, 1, 0.5f);
+            if (workoutDatesResult.dates.ToList().Contains($"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}"))
+            {
+                c = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6");
+            }
+            Achivements.Add(new Achivement
+            {
+                Date = $"{i:D2}",
+                Color = c,
+                Today = DateTime.Now.Day == i
+            });
+        }
+        achivements_collection.ItemsSource = Achivements;
+
+
     }
     async Task<WorkoutDataResult> getData(string t, string d)
     {
@@ -219,11 +275,18 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             workoutDatesResult = JsonSerializer.Deserialize<WorkoutDatesResult>(resdata);
             string[] monthsShort = new string[] {"Jan", "Feb", "Mar", "Apr",
             "Maj","Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dec"};
+
+
+
+            GetAchivements();
+
+
             Device.BeginInvokeOnMainThread(() =>
             {
+                WorkoutDataResult workoutData = getData(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}").Result;
                 if (workoutDatesResult.dates.ToList().Contains($"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}"))
                 {
-                    WorkoutDataResult workoutData = getData(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{DateTime.Now.Day:D2}").Result;
+                    Template template = Translator.TranslateToTemplate(workoutData);
                     TimeJson time = JsonSerializer.Deserialize<TimeJson>(workoutData.data[0].time);
                     string format = "ddd MMM dd yyyy HH:mm:ss 'GMT'zzz '(''közép-európai téli idõ'')'";
 
@@ -246,7 +309,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                         Title = workoutData != null ? workoutData.data[0].name : "No data",
                         Color = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6"),
                         IsFinished = workoutData.data[0].isFinished == 1,
-                        IsVisible = workoutData.data[0].isFinished != 1
+                        IsVisible = workoutData.data[0].isFinished != 1,
+                        Data = template
                     };
                     BindingContext = dayViewModel;
                 }
@@ -291,6 +355,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             calendarCollectionView.FadeTo(1, 300);
             muscleView_front.FadeTo(0, 300);
             muscleView_back.FadeTo(0, 300);
+            achivements_collection.FadeTo(0, 300);
+            achivements_c_header.FadeTo(0, 300);
 
             todays_workout.TranslateTo(0, -600, 200);
             add_workout.TranslateTo(0, -600, 200);
@@ -300,8 +366,10 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         {
             calendarCollectionView.TranslateTo(0, 240, 200);
             calendarCollectionView.FadeTo(0.5, 300);
-            muscleView_front.FadeTo(front ? 1: 0.1, 300);
-            muscleView_back.FadeTo(front ?  0.1 : 1, 300);
+            muscleView_front.FadeTo(front ? 1: 0, 300);
+            muscleView_back.FadeTo(front ?  0 : 1, 300);
+            achivements_collection.FadeTo(1, 300);
+            achivements_c_header.FadeTo(1, 300);
 
             todays_workout.TranslateTo(0, -65, 300);
             add_workout.TranslateTo(0, -65, 300);
@@ -386,12 +454,24 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     private void Other_Clicked(object sender, EventArgs e)
     {
         hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//WorkoutPage", false);
+        Shell.Current.GoToAsync($"//SettingsPage", false);
     }
     private void Calendar_Clicked(object sender, EventArgs e)
     {
         hide.IsVisible = true;
         Shell.Current.GoToAsync($"//CalendarPage", false);
+    }
+    private void Start_Workout_Calendar(object sender, EventArgs e)
+    {
+        var button = sender as ImageButton;
+        var dayViewModel = button.CommandParameter as DayViewModel;
+        var template = dayViewModel.Data;
+
+        // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
+        if (template != null)
+        {
+            Navigation.PushAsync(new WorkoutPage(template, true));
+        }
     }
     private void Start_Workout(object sender, EventArgs e)
     {
@@ -402,7 +482,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
         if (template != null)
         {
-            Navigation.PushAsync(new WorkoutPage(template));
+            Navigation.PushAsync(new WorkoutPage(template, false));
         }
     }
 }

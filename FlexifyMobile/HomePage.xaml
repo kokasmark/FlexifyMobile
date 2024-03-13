@@ -56,8 +56,34 @@
                 <SwipeGestureRecognizer Direction="Down" Swiped="Swipe"/>
             </BoxView.GestureRecognizers>
         </BoxView>
-        <local:ColoredSvgContentView x:Name="muscleView_front" WidthRequest="300" HeightRequest="300" TranslationX="0" TranslationY="200" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
-        <local:ColoredSvgContentView x:Name="muscleView_back" WidthRequest="300" HeightRequest="300" TranslationX="280" TranslationY="225" Scale="1.4" RotationX="180" BackgroundColor="Transparent" IsFront="False" Opacity="0.1"/>
+        
+        <local:ColoredSvgContentView x:Name="muscleView_front" WidthRequest="300" HeightRequest="300" TranslationX="-40" TranslationY="200" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
+        <local:ColoredSvgContentView x:Name="muscleView_back" WidthRequest="300" HeightRequest="300" TranslationX="130" TranslationY="225" Scale="1.4" RotationX="180" BackgroundColor="Transparent" IsFront="False" Opacity="0.1"/>
+
+        <Grid Grid.Row="1" Grid.Column="2" ColumnDefinitions="0.2*,*" HeightRequest="50" VerticalOptions="Start" x:Name="achivements_c_header">
+            <Image Source="{StaticResource Progress}" WidthRequest="30" HeightRequest="30" 
+                   VerticalOptions="Center" HorizontalOptions="End" TranslationX="10"/>
+            <Label  Grid.Column="1" Text="Progress" TextColor="White" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" FontSize="30" FontAttributes="Bold" />
+        </Grid>
+        
+        <CollectionView ItemsSource="{Binding Achivements}" x:Name="achivements_collection" BackgroundColor="Transparent"
+                Grid.Row="1" Grid.Column="2" HeightRequest="180" WidthRequest="180" VerticalOptions="Start" TranslationY="50">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="7" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <BoxView Color="{Binding Color}" 
+                         CornerRadius="25" WidthRequest="15" HeightRequest="15"
+                         VerticalOptions="Start" HorizontalOptions="Start" Margin="2" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!--<BoxView BackgroundColor="Red" Grid.Row="1" Grid.Column="2" HeightRequest="180" WidthRequest="180" Opacity="0.3" VerticalOptions="Start" ZIndex="2"/>-->
+
 
         <Border x:Name="timeSpan" Grid.ColumnSpan="2" Stroke="#fff" Margin="30" TranslationY="0" BackgroundColor="Transparent" HeightRequest="50">
             <Grid x:Name="timeSpanGrid" ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5" Padding="5">
@@ -87,7 +113,7 @@
             HorizontalOptions="CenterAndExpand"
             TextColor="White"/>
                 <Border BackgroundColor="{DynamicResource Primary}" Grid.Column="2"  Grid.RowSpan="2" ZIndex="1" Stroke="Transparent" IsVisible="{Binding IsVisible}">
-                    <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout"></ImageButton>
+                    <ImageButton Source="{StaticResource Play}" HeightRequest="40" Clicked="Start_Workout_Calendar" CommandParameter="{Binding .}"></ImageButton>
                 </Border>
                 <Image Grid.Column="2" HeightRequest="40" Grid.RowSpan="2" Source="{StaticResource Checked}"/>
             </Grid>

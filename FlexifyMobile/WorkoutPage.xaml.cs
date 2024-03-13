@@ -13,7 +13,30 @@ public partial class WorkoutPage : ContentPage
     Template workout;
     public WorkoutPageViewModel ViewModel { get; set; }
     private bool isPressed = false;
+    bool fromCalendar;
+    
+    public WorkoutPage(Template template, bool fromCalendar)
+	{
+		InitializeComponent();
+        database = new FlexifyDatabase();
+        List<User> users = database.GetItemsAsync();
+        token = users[users.Count - 1].token;
+        PageWorkout.Title = template.name;
+        workout = template;
+        ViewModel = new WorkoutPageViewModel();
+        BindingContext = ViewModel;
+        ViewModel.CurrentWorkout = template.json[0];
+        ViewModel.SetCounter = $"1/{ViewModel.CurrentWorkout.set_data.Length}";
+        ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[0];
+        ViewModel.Paused = false;
+        ViewModel.Title = template.name;
 
+        this.fromCalendar = fromCalendar;
+
+        MuscleViewAnimation();
+		IncreaseSeconds();
+        AnimateGlow();
+    }
     public void Next()
     {
         if (!ViewModel.Paused)
@@ -78,26 +101,28 @@ public partial class WorkoutPage : ContentPage
         done_gif.IsAnimationPlaying = true;
         done_grid.FadeTo(1, 300);
         await Task.Delay(3000);
-    }
-    public WorkoutPage(Template template)
-	{
-		InitializeComponent();
-        database = new FlexifyDatabase();
-        List<User> users = database.GetItemsAsync();
-        token = users[users.Count - 1].token;
-        PageWorkout.Title = template.name;
-        workout = template;
-        ViewModel = new WorkoutPageViewModel();
-        BindingContext = ViewModel;
-        ViewModel.CurrentWorkout = template.json[0];
-        ViewModel.SetCounter = $"1/{ViewModel.CurrentWorkout.set_data.Length}";
-        ViewModel.CurrentSet = ViewModel.CurrentWorkout.set_data[0];
-        ViewModel.Paused = false;
-        ViewModel.Title = template.name;
 
-        MuscleViewAnimation();
-		IncreaseSeconds();
-        AnimateGlow();
+        if (fromCalendar)
+        {
+            var client = new HttpClient();
+
+            var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/workouts/finish");
+            var jsonBody = $"{{ \"id\": \"{workout.id}\"}}";
+            var content = new StringContent(jsonBody, null, "application/json");
+            request.Content = content;
+            request.Headers.Add("X-Token", $"{token}");
+
+            var response = await client.SendAsync(request).ConfigureAwait(false);
+            response.EnsureSuccessStatusCode();
+        }
+        else
+        {
+
+        }
+    }
+    public void SaveCopy()
+    {
+
     }
     protected async override void OnAppearing()
     {

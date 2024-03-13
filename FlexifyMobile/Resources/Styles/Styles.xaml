@@ -13,15 +13,19 @@
     <FontImage x:Key="Reps" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.RedoAlt}"/>
     <FontImage x:Key="Weight" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Dumbbell}"/>
     <FontImage x:Key="Time" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Stopwatch}"/>
+    <FontImage x:Key="Progress" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Poll}"/>
+    <FontImage x:Key="User" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.UserCircle}"/>
+    <FontImage x:Key="Male" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Male}"/>
+    <FontImage x:Key="Female" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Female}"/>
     
     <FontImage x:Key="Home" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Home}"/>
     <FontImage x:Key="Diet" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Carrot}"/>
-    <FontImage x:Key="Other" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.EllipsisH}"/>
+    <FontImage x:Key="Other" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Cog}"/>
     <FontImage x:Key="Calendar" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Calendar}"/>
 
     <FontImage x:Key="Home_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Home}"/>
     <FontImage x:Key="Diet_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Carrot}"/>
-    <FontImage x:Key="Other_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.EllipsisH}"/>
+    <FontImage x:Key="Other_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Cog}"/>
     <FontImage x:Key="Calendar_Hide" FontFamily="FontAwesome" Size="22" Color="#305886" Glyph="{x:Static res:IconFonts.Calendar}"/>
 
     <Style TargetType="ActivityIndicator">
