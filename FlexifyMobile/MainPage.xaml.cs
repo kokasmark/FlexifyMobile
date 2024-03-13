@@ -39,9 +39,10 @@ namespace FlexifyMobile
 
                 if (response.IsSuccessStatusCode)
                 {
+                    //await Shell.Current.GoToAsync($"//HomePage?Token={token}", true);
                     await Device.InvokeOnMainThreadAsync(async () =>
                     {
-                        Shell.Current.GoToAsync($"//HomePage?Token={token}", true);
+                        await Shell.Current.GoToAsync($"//HomePage?Token={token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
                     });
                 }
             }
@@ -77,10 +78,12 @@ namespace FlexifyMobile
                 var resdata = await response.Content.ReadAsStringAsync();
                 token = JsonSerializer.Deserialize<LoginResult>(resdata);
                 await database.SaveItemAsync(new User(username, token.token));
+
+                //await Shell.Current.GoToAsync($"//HomePage?Token={token}", true);
                 // Use Device.InvokeOnMainThreadAsync to update the UI on the main thread
                 await Device.InvokeOnMainThreadAsync(async () =>
                 {
-                    Shell.Current.GoToAsync($"//HomePage?Token={token.token}");//Toggle the bool variable between builds to fix Maui not rendering on Navigation
+                    await Shell.Current.GoToAsync($"//HomePage?Token={token.token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
                 });
             }
             

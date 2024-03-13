@@ -95,8 +95,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         await Task.Delay(100);
         imgLoader.IsAnimationPlaying = true;
         await Task.Delay(100);
-        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
-        InitializeWorkouts();
+        //getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
+        //InitializeWorkouts();
         //Console.WriteLine($"NAvigationStack: {Navigation.NavigationStack}");
 
     }
@@ -208,11 +208,15 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
 
         for (int i = 1; i < DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month); i++)
         {
-            WorkoutDataResult workoutData = getData(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}").Result;
             Color c = new Color(1, 1, 1, 0.5f);
             if (workoutDatesResult.dates.ToList().Contains($"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}"))
             {
-                c = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6");
+                WorkoutDataResult workoutData = await getData(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}");
+                
+                if (workoutDatesResult.dates.ToList().Contains($"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{i:D2}"))
+                {
+                    c = workoutData.data[0].isFinished == 1 ? Color.Parse("#22cc33") : Color.Parse("#3f8de6");
+                }
             }
             Achivements.Add(new Achivement
             {
@@ -351,6 +355,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         if (toggle)
         {
             calendarCollectionView.TranslateTo(0, -250, 300);
+            swipeHint.FadeTo(0, 100);
             calendarCollectionView.FadeTo(1, 300);
             muscleView_front.FadeTo(0, 300);
             muscleView_back.FadeTo(0, 300);
@@ -364,6 +369,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         else
         {
             calendarCollectionView.TranslateTo(0, 300, 200);
+            swipeHint.FadeTo(1, 300);
             calendarCollectionView.FadeTo(0.5, 300);
             muscleView_front.FadeTo(front ? 1: 0, 300);
             muscleView_back.FadeTo(front ?  0 : 1, 300);

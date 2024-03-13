@@ -19,8 +19,8 @@ namespace FlexifyMobile
             if (Database is not null)
                 return;
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
-            await Database.CreateTableAsync<User>();
-            await Database.CreateTableAsync<WorkoutTemplate>();
+            Database.CreateTableAsync<User>();
+            Database.CreateTableAsync<WorkoutTemplate>();
         }
 
         public List<User> GetItemsAsync()

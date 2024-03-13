@@ -11,10 +11,12 @@
     Shell.TabBarUnselectedColor="#305886">
 
 
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+
     <TabBar>
         <Tab Title="Home"
             Icon="{StaticResource Home}">
-            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+            <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
         <Tab Title="Diet"
             Icon="{StaticResource Diet}">
