@@ -4,26 +4,30 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FlexifyMobile"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    Shell.TabBarBackgroundColor="{DynamicResource Primary}"
+    Shell.TabBarTitleColor="White"
+    Shell.TabBarForegroundColor="White"
+    Shell.TabBarUnselectedColor="#305886">
 
-    <ShellContent
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:HomePage}"
-        Route="HomePage" />
-    <ShellContent
-        Title="Calendar"
-        ContentTemplate="{DataTemplate local:CalendarPage}"
-        Route="CalendarPage" />
-    <ShellContent
-        Title="Diet"
-        ContentTemplate="{DataTemplate local:DietPage}"
-        Route="DietPage" />
-    <ShellContent
-        Title="Workout"
-        ContentTemplate="{DataTemplate local:WorkoutPage}"
-        Route="WorkoutPage" />
+
+    <TabBar>
+        <Tab Title="Home"
+            Icon="{StaticResource Home}">
+            <ShellContent ContentTemplate="{DataTemplate local:HomePage}" />
+        </Tab>
+        <Tab Title="Diet"
+            Icon="{StaticResource Diet}">
+            <ShellContent ContentTemplate="{DataTemplate local:DietPage}" />
+        </Tab>
+        <Tab Title="Calendar"
+            Icon="{StaticResource Calendar}">
+            <ShellContent ContentTemplate="{DataTemplate local:CalendarPage}" />
+        </Tab>
+        <Tab Title="Settings"
+            Icon="{StaticResource Settings}">
+            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+        </Tab>
+    </TabBar>
 
 </Shell>

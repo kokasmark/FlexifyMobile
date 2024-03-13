@@ -6,14 +6,6 @@
              xmlns:local="clr-namespace:FlexifyMobile"
              x:Name="PageWorkout">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
-        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}"/>
-        <ToolbarItem IconImageSource="{StaticResource Calendar_Hide}" Clicked="Calendar_Clicked"/>
-        <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
-    </ContentPage.ToolbarItems>
-
-
     <Grid RowDefinitions="*,3.3*,*" ColumnDefinitions="*,*">
         <Frame x:Name="glowIndicatorRight" Grid.RowSpan="3" WidthRequest="10" HorizontalOptions="End" Grid.Column="1" Padding="0" HasShadow="False" IsClippedToBounds="True" ZIndex="1">
             <Frame.Background>

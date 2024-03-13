@@ -119,14 +119,4 @@ public partial class DietPage : ContentPage
             });
         }
     }
-    private void Home_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
-    }
-    private void Calendar_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//CalendarPage", false);
-    }
 }

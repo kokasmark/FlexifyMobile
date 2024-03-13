@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting;
+using Microsoft.Maui.Controls.Hosting;
 
 namespace FlexifyMobile
 {
@@ -28,7 +29,6 @@ namespace FlexifyMobile
             handler.PlatformView.SetBackgroundColor(Android.Graphics.Color.Transparent);
 #endif
             });
-
             return builder.Build();
         }
     }

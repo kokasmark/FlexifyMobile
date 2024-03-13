@@ -83,7 +83,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
         InitializeWorkouts();
         StartAnim(500);
-        StartBounceAnimation(calendarCollectionView);
+        StartBounceAnimation(templatesParent);
         AutoRotate();
     }
     protected async override void OnAppearing()
@@ -97,8 +97,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         await Task.Delay(100);
         getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
         InitializeWorkouts();
+        //Console.WriteLine($"NAvigationStack: {Navigation.NavigationStack}");
 
-        
     }
    
     void InitializeWorkouts()
@@ -134,8 +134,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     }
     private  async Task BounceAnimation(View view)
     {
-        await view.ScaleYTo(0.999, 100, Easing.SinOut);
-        await view.ScaleYTo(1.01, 100, Easing.SinOut);
+        await view.ScaleYTo(0.9, 100, Easing.SinOut);
         await view.ScaleYTo(1, 100, Easing.SinOut);
     }
     public  async Task StartBounceAnimation(View view)
@@ -351,28 +350,28 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     {
         if (toggle)
         {
-            calendarCollectionView.TranslateTo(0, -300, 300);
+            calendarCollectionView.TranslateTo(0, -250, 300);
             calendarCollectionView.FadeTo(1, 300);
             muscleView_front.FadeTo(0, 300);
             muscleView_back.FadeTo(0, 300);
             achivements_collection.FadeTo(0, 300);
             achivements_c_header.FadeTo(0, 300);
 
-            todays_workout.TranslateTo(0, -600, 200);
-            add_workout.TranslateTo(0, -600, 200);
+            todays_workout.TranslateTo(0, -550, 200);
+            add_workout.TranslateTo(0, -550, 200);
             timeSpan.FadeTo(0, 300);
         }
         else
         {
-            calendarCollectionView.TranslateTo(0, 240, 200);
+            calendarCollectionView.TranslateTo(0, 300, 200);
             calendarCollectionView.FadeTo(0.5, 300);
             muscleView_front.FadeTo(front ? 1: 0, 300);
             muscleView_back.FadeTo(front ?  0 : 1, 300);
             achivements_collection.FadeTo(1, 300);
             achivements_c_header.FadeTo(1, 300);
 
-            todays_workout.TranslateTo(0, -65, 300);
-            add_workout.TranslateTo(0, -65, 300);
+            todays_workout.TranslateTo(0, -30, 300);
+            add_workout.TranslateTo(0, -30, 300);
             timeSpan.FadeTo(1, 300);
         }
     }
@@ -444,22 +443,6 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
                     break;
             }
         }
-    }
-
-    private void Diet_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//DietPage", false);
-    }
-    private void Other_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//SettingsPage", false);
-    }
-    private void Calendar_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//CalendarPage", false);
     }
     private void Start_Workout_Calendar(object sender, EventArgs e)
     {

@@ -80,8 +80,7 @@ namespace FlexifyMobile
                 // Use Device.InvokeOnMainThreadAsync to update the UI on the main thread
                 await Device.InvokeOnMainThreadAsync(async () =>
                 {
-                    Console.WriteLine("flexify_token_home:" + token.token);
-                    Shell.Current.GoToAsync($"//HomePage?Token={token.token}", true);
+                    Shell.Current.GoToAsync($"//HomePage?Token={token.token}");//Toggle the bool variable between builds to fix Maui not rendering on Navigation
                 });
             }
             

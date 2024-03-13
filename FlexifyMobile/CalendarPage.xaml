@@ -5,13 +5,6 @@
              Title="Calendar"
              x:Name="Page">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="{StaticResource Home_Hide}" Clicked="Home_Clicked"/>
-        <ToolbarItem IconImageSource="{StaticResource Diet_Hide}" Clicked="Diet_Clicked"/>
-        <ToolbarItem IconImageSource="{StaticResource Calendar}"/>
-        <ToolbarItem IconImageSource="{StaticResource Other_Hide}" />
-    </ContentPage.ToolbarItems>
-
     <Grid RowDefinitions="2*,4*" BackgroundColor="{DynamicResource Background}">
         <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent">
             <Grid RowDefinitions="2*,6*" >
@@ -65,7 +58,7 @@
                 <CollectionView Grid.Row="1" x:Name="monthView"
                     ItemsSource="{Binding Days}"
                     SelectionMode="Single"
-                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-35">
+                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-20">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                              Span="1" />
