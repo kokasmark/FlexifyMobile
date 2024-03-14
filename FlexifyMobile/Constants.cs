@@ -8,8 +8,8 @@ namespace FlexifyMobile
 {
     public static class Constants
     {
-        public static string hostname = "192.168.68.109";
-        public const string DatabaseFilename = "FlexifyDatabase2.db3";
+        public static string hostname = "10.0.33.4";
+        public const string DatabaseFilename = "FlexifyDatabase3.db3";
 
         public const SQLite.SQLiteOpenFlags Flags = SQLite.SQLiteOpenFlags.ReadWrite | SQLite.SQLiteOpenFlags.Create | SQLite.SQLiteOpenFlags.SharedCache;
 

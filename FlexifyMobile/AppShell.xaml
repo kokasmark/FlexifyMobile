@@ -11,7 +11,7 @@
     Shell.TabBarUnselectedColor="#305886">
 
 
-    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" />
+    <ShellContent Route="MainPage" ContentTemplate="{DataTemplate local:MainPage}" />
 
     <TabBar>
         <Tab Title="Home"

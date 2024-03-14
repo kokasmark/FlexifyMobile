@@ -20,7 +20,6 @@ namespace FlexifyMobile
                 return;
             Database = new SQLiteAsyncConnection(Constants.DatabasePath, Constants.Flags);
             Database.CreateTableAsync<User>();
-            Database.CreateTableAsync<WorkoutTemplate>();
         }
 
         public List<User> GetItemsAsync()
@@ -40,23 +39,10 @@ namespace FlexifyMobile
             await Init();
             return await Database.DeleteAsync(User);
         }
-
-        public List<WorkoutTemplate> GetWorkoutsAsync()
-        {
-            Init();
-            return Database.Table<WorkoutTemplate>().ToListAsync().Result;
-        }
-
-        public async Task<int> SaveWorkoutsAsync(WorkoutTemplate w)
+        public async Task<int> UpdateItemAsync(User user)
         {
             await Init();
-            return await Database.InsertAsync(w);
-        }
-
-        public async Task<int> DeleteWorkoutsAsync(WorkoutTemplate w)
-        {
-            await Init();
-            return await Database.DeleteAsync(w);
+            return await Database.UpdateAsync(user);
         }
     }
     

@@ -22,6 +22,7 @@ namespace FlexifyMobile
         Dictionary<string, int> backTips = new Dictionary<string, int>();
         int timespan = 30;
         string token = "";
+        List<User> users = new List<User>();
         public bool IsFront
         {
             get { return (bool)GetValue(IsFrontProperty); }
@@ -41,7 +42,7 @@ namespace FlexifyMobile
         void InitializeComponent()
         {
             database = new FlexifyDatabase();
-            List<User> users = database.GetItemsAsync();
+            users = database.GetItemsAsync();
             token = users[users.Count-1].token;
             GetUserMusclesWorked(token,timespan);
         }
@@ -57,15 +58,37 @@ namespace FlexifyMobile
         {
             SKSurface surface = e.Surface;
             SKCanvas canvas = surface.Canvas;
+            users = database.GetItemsAsync();
 
             BindingContext = this;
             // Load your SVG file
             bool isFront = ((ColoredSvgContentView)BindingContext).IsFront;
-            string svgFilePath = "Resources.Images.muscles.svg";
-            if (!isFront)
+            string svgFilePath = $"Resources.Images.muscles.svg";
+            if (users[users.Count - 1].anatomy)
             {
-                svgFilePath = "Resources.Images.muscles-back.svg";
-                canvas.Scale(0.1f);
+                if (!isFront)
+                {
+                    svgFilePath = "Resources.Images.muscles-back.svg";
+                    canvas.Scale(0.1f);
+                }
+                else
+                {
+                    canvas.Scale(1f);
+                    svgFilePath = "Resources.Images.muscles.svg";
+                }
+            }
+            else
+            {
+                if (!isFront)
+                {
+                    svgFilePath = "Resources.Images.women-muscles-back.svg";
+                    canvas.Scale(0.1f);
+                }
+                else
+                {
+                    svgFilePath = "Resources.Images.women-muscles.svg";
+                    canvas.Scale(0.1f);
+                }
             }
             string svgContent = new StreamReader( GetStreamFromFile(svgFilePath)).ReadToEnd();
 
@@ -165,24 +188,52 @@ namespace FlexifyMobile
                 foreach (string m in values.Keys)
                 {
                     string mm = m;
-                    if (muscleGroups.Men[mm].Contains(int.Parse(pathId)))
+                    if (users[users.Count - 1].anatomy)
                     {
-                        strength = values[mm];
-                        if (strength > 0)
+                        if (muscleGroups.Men[mm].Contains(int.Parse(pathId)))
                         {
-                            MuscleGroups groups = new MuscleGroups();
-                            if (groups.Front.Contains(mm))
+                            strength = values[mm];
+                            if (strength > 0)
                             {
-                                if (!frontTips.ContainsKey(mm))
+                                MuscleGroups groups = new MuscleGroups();
+                                if (groups.Front.Contains(mm))
                                 {
-                                    frontTips.Add(mm, strength);
+                                    if (!frontTips.ContainsKey(mm))
+                                    {
+                                        frontTips.Add(mm, strength);
+                                    }
+                                }
+                                if (groups.Back.Contains(mm))
+                                {
+                                    if (!backTips.ContainsKey(mm))
+                                    {
+                                        backTips.Add(mm, strength);
+                                    }
                                 }
                             }
-                            if (groups.Back.Contains(mm))
+                        }
+                    }
+                    else
+                    {
+                        if (muscleGroups.Women[mm].Contains(int.Parse(pathId)))
+                        {
+                            strength = values[mm];
+                            if (strength > 0)
                             {
-                                if (!backTips.ContainsKey(mm))
+                                MuscleGroups groups = new MuscleGroups();
+                                if (groups.Front.Contains(mm))
                                 {
-                                    backTips.Add(mm, strength);
+                                    if (!frontTips.ContainsKey(mm))
+                                    {
+                                        frontTips.Add(mm, strength);
+                                    }
+                                }
+                                if (groups.Back.Contains(mm))
+                                {
+                                    if (!backTips.ContainsKey(mm))
+                                    {
+                                        backTips.Add(mm, strength);
+                                    }
                                 }
                             }
                         }

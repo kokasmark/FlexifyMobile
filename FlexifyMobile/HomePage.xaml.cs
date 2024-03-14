@@ -71,6 +71,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     bool swipedUp = false;
     WorkoutTemplate workoutData;
 
+    bool male = false;
 
 
     public HomePage()
@@ -85,6 +86,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         StartAnim(500);
         StartBounceAnimation(templatesParent);
         AutoRotate();
+
     }
     protected async override void OnAppearing()
     {
@@ -95,9 +97,21 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         await Task.Delay(100);
         imgLoader.IsAnimationPlaying = true;
         await Task.Delay(100);
-        //getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
-        //InitializeWorkouts();
-        //Console.WriteLine($"NAvigationStack: {Navigation.NavigationStack}");
+        List<User> users = database.GetItemsAsync();
+        if (!users[users.Count - 1].anatomy)
+        {
+            muscleView_front.TranslationX = -120;
+            muscleView_front.Scale = 1.4;
+            muscleView_front.TranslationY = 220;
+            muscleView_front.Rotation = 180;
+        }
+        else
+        {
+            muscleView_front.TranslationX = -40;
+            muscleView_front.Scale = 1.5;
+            muscleView_front.TranslationY = 200;
+            muscleView_front.Rotation = 0;
+        }
 
     }
    
@@ -134,7 +148,8 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     }
     private  async Task BounceAnimation(View view)
     {
-        await view.ScaleYTo(0.9, 100, Easing.SinOut);
+        await view.ScaleYTo(0.99, 100, Easing.SinOut);
+        await view.ScaleYTo(1.01, 100, Easing.SinOut);
         await view.ScaleYTo(1, 100, Easing.SinOut);
     }
     public  async Task StartBounceAnimation(View view)

@@ -38,7 +38,20 @@ namespace FlexifyMobile
                 { "traps", new List<int> { 88, 89 } },
                 { "shoulder", new List<int> { 7, 8, 9, 12, 90, 91 } },
                 { "chest", new List<int> { 13, 14 } },
-                // Add other muscle groups for women
+                { "biceps", new List<int> { 15, 16 } },
+                { "triceps", new List<int> { 21, 22, 98, 100, 94, 95, 99, 101 } },
+                { "lats", new List<int> { 96, 97, 104, 105 } },
+                { "abs", new List<int> { 23, 24, 29, 30, 37, 38, 42, 43 } },
+                { "obliques", new List<int> { 17, 19, 25, 27, 33, 18, 20, 26, 28, 34, 112, 113 } },
+                { "quadriceps", new List<int> { 63, 48, 44, 66, 45, 49, 64, 67 } },
+                { "calves", new List<int> { 138, 140, 141, 139 } },
+                { "leg", new List<int> { 78, 76, 74, 75, 77, 79, 144, 142, 143, 145 } },
+                { "forearm", new List<int> { 31, 35, 39, 32, 40, 41, 36, 109, 106, 111, 110, 107, 108 } },
+                { "glutes", new List<int> { 114, 115, 116, 117 } },
+                { "hamstrings", new List<int> { 132, 134, 136, 131, 130, 137, 135, 133 } },
+                { "adductors", new List<int> { 46, 47, 54, 55 } },
+                { "midBack", new List<int> { 92, 93 } },
+                { "neck", new List<int> { 3, 4, 2 } }
             };
 
             Front = new string[]

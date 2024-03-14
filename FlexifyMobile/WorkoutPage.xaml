@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:FlexifyMobile"
              x:Name="PageWorkout">
 
-    <Grid RowDefinitions="*,3.3*,*" ColumnDefinitions="*,*">
+    <Grid RowDefinitions="*,3.5*,*" ColumnDefinitions="*,*">
         <Frame x:Name="glowIndicatorRight" Grid.RowSpan="3" WidthRequest="10" HorizontalOptions="End" Grid.Column="1" Padding="0" HasShadow="False" IsClippedToBounds="True" ZIndex="1">
             <Frame.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="0.5,0">
@@ -35,9 +35,9 @@
             Pressed="DisplayAlert"
             Released="HideAlert"
             x:Name="timerButton" Opacity="0" ZIndex="2"/>
-        <Image x:Name="HeaderBg" Grid.ColumnSpan="2" Scale="4" TranslationY="-200"  Source="circle.png" ZIndex="2"></Image>
+        <Image x:Name="HeaderBg" Grid.ColumnSpan="2" Scale="4" TranslationY="-180"  Source="circle.png" ZIndex="2"></Image>
 
-        <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding TimerString}" FontSize="70" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="3" />
+        <Label Grid.ColumnSpan="2" TextColor="White" Text="{Binding TimerString}" TranslationY="-20" FontSize="70" HorizontalTextAlignment="Center" VerticalOptions="Center" FontAttributes="Bold" x:Name="timer_lbl" ZIndex="3" />
         <Border Grid.Row="1" Grid.ColumnSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="muscleView_front" Scale="1.2">
             <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300" TranslationX="-55" TranslationY="-40" Scale="1.5" BackgroundColor="Transparent" IsFront="True"/>
         </Border>
@@ -45,15 +45,15 @@
             <local:ColoredSvgContentView  WidthRequest="300" HeightRequest="300"  TranslationX="115" TranslationY="-15"  Scale="1.4" RotationX="180" BackgroundColor="Transparent" IsFront="False"/>
         </Border>
 
-        <Image x:Name="ControlsBg" Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="225"  Source="circle.png" ZIndex="2"></Image>
-       
-        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="20" Background="Transparent" Stroke="Transparent" ZIndex="3">
-            <Grid ColumnDefinitions="*,*" TranslationY="0">
-                <ImageButton TranslationY="20" Grid.Column="1" Source="{StaticResource Checked}" HeightRequest="60" Clicked="FinishEarly"></ImageButton>
+        <Image x:Name="ControlsBg" Grid.Row="2" Grid.ColumnSpan="2" Scale="4" TranslationY="200"  Source="circle.png" ZIndex="2"></Image>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Background="Transparent" Margin="30,0,30,0" Stroke="Transparent" ZIndex="3">
+            <Grid ColumnDefinitions="*,*" TranslationY="-10">
+                <ImageButton TranslationY="20" Grid.Column="1" Source="{StaticResource Checked}" HeightRequest="50" Clicked="FinishEarly"></ImageButton>
                 <ImageButton TranslationY="20" Grid.Column="0" x:Name="resume_btn"
-                             Source="{StaticResource Play}" HeightRequest="60" IsVisible="False" Clicked="PauseResume"></ImageButton>
+                             Source="{StaticResource Play}" HeightRequest="50" IsVisible="False" Clicked="PauseResume"></ImageButton>
                 <ImageButton TranslationY="20" Grid.Column="0" x:Name="pause_btn"
-                             Source="{StaticResource Pause}" HeightRequest="60" Clicked="PauseResume"></ImageButton>
+                             Source="{StaticResource Pause}" HeightRequest="50" Clicked="PauseResume"></ImageButton>
             </Grid>
         </Border>
         <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8" Grid.ColumnSpan="2" ZIndex="10">
