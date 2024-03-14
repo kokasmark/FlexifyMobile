@@ -14,7 +14,7 @@
     <FontImage x:Key="Weight" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Dumbbell}"/>
     <FontImage x:Key="Time" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Stopwatch}"/>
     <FontImage x:Key="Progress" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.History}"/>
-    <FontImage x:Key="User" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.UserCog}"/>
+    <FontImage x:Key="User" FontFamily="FontAwesome" Size="50" Color="White" Glyph="{x:Static res:IconFonts.UserCog}"/>
     <FontImage x:Key="Male" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Male}"/>
     <FontImage x:Key="Female" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Female}"/>
     

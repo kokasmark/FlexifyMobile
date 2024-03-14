@@ -2,18 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FlexifyMobile.SettingsPage"
-             Title="Settings"
+             IconImageSource="{StaticResource Settings}"
              BackgroundColor="{DynamicResource Background}">
-    
-    <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*">
-        <Image Source="{StaticResource User}" Grid.ColumnSpan="2" HeightRequest="100" WidthRequest="100"/>
 
-        <Label Text="Anatomy" TextColor="White" FontAttributes="Bold" Grid.Row="1" Grid.ColumnSpan="2" HorizontalTextAlignment="Center" FontSize="30"/>
+    <Grid RowDefinitions="0.5*,*,*" ColumnDefinitions="*,*,*">
+        <Image Source="{StaticResource User}" Grid.ColumnSpan="3" HeightRequest="100" WidthRequest="100"/>
+        <Label Text="Settings" Grid.ColumnSpan="3" TextColor="White" HorizontalTextAlignment="Center" VerticalOptions="Center" FontSize="35" TranslationY="70" FontAttributes="Bold"></Label>
+
+        <Label Text="Anatomy:" TextColor="White" FontAttributes="Bold" Grid.Row="1" Grid.Column="0" HorizontalTextAlignment="Center" FontSize="25" VerticalOptions="Center"/>
         <ImageButton x:Name="male" Source="{StaticResource Male}" Grid.Row="1" 
-                     HeightRequest="80" WidthRequest="80" BackgroundColor="{DynamicResource Primary}" CornerRadius="30" Padding="10" Clicked="male_Clicked"/>
-        <ImageButton x:Name="female" Source="{StaticResource Female}" Grid.Row="1" Grid.Column="1" HeightRequest="80" WidthRequest="80" 
+                     HeightRequest="80" WidthRequest="80" BackgroundColor="{DynamicResource Primary}" CornerRadius="30" Padding="10" Clicked="male_Clicked"  Grid.Column="1"/>
+        <ImageButton x:Name="female" Source="{StaticResource Female}" Grid.Row="1" Grid.Column="2" HeightRequest="80" WidthRequest="80" 
                      BackgroundColor="Transparent" CornerRadius="30" Padding="10" Clicked="female_Clicked"/>
 
-        <Button x:Name="logout" Text="Log out" TextColor="White" Grid.Row="2" Grid.ColumnSpan="2" BackgroundColor="Red" Clicked="logout_Clicked" WidthRequest="200" HeightRequest="80" FontSize="25"/>
+        <Button x:Name="logout" Text="Log out" TextColor="White" Grid.Row="2" Grid.ColumnSpan="3" BackgroundColor="Red" Clicked="logout_Clicked" WidthRequest="200" HeightRequest="50" FontSize="20"/>
     </Grid> 
 </ContentPage>

@@ -80,11 +80,11 @@
 
         <Border x:Name="timeSpan" Grid.ColumnSpan="2" Stroke="#fff" Margin="30" TranslationY="0" BackgroundColor="Transparent" HeightRequest="50">
             <Grid x:Name="timeSpanGrid" ColumnDefinitions="*,*,*,*,*" ColumnSpacing="5" Padding="5">
-                <Button Text="Weekly" Opacity="0.8" Clicked="TimeSpan_Clicked"></Button>
+                <Button Text="Weekly" Opacity="0.5" Clicked="TimeSpan_Clicked"></Button>
                 <Button Grid.Column="1" Text="Monthly" Opacity="1" FontAttributes="Bold" Clicked="TimeSpan_Clicked"></Button>
-                <Button Grid.Column="2" Text="6 Months" Opacity="0.8" Clicked="TimeSpan_Clicked"></Button>
-                <Button Grid.Column="3" Text="A Year" Opacity="0.8" Clicked="TimeSpan_Clicked"></Button>
-                <Button Grid.Column="4" Text="All" Opacity="0.8" Clicked="TimeSpan_Clicked"></Button>
+                <Button Grid.Column="2" Text="6 Months" Opacity="0.5" Clicked="TimeSpan_Clicked"></Button>
+                <Button Grid.Column="3" Text="A Year" Opacity="0.5" Clicked="TimeSpan_Clicked"></Button>
+                <Button Grid.Column="4" Text="All" Opacity="0.5" Clicked="TimeSpan_Clicked"></Button>
             </Grid>
         </Border>
         

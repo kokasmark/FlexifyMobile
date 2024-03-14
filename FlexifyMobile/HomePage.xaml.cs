@@ -427,7 +427,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         {
             if (child is Button b)
             {
-                b.Opacity = 0.8;
+                b.Opacity = 0.5;
                 b.FontAttributes = FontAttributes.None;
             }
         }

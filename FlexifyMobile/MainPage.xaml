@@ -15,7 +15,7 @@
         </Border>
         <Label x:Name="status_lbl" Text="{Binding status}"/>
         <Button x:Name="login_Btn" Grid.Row="3" WidthRequest="200" HeightRequest="50" Text="Login" Clicked="login_Btn_Clicked"/>
-        <Border Grid.RowSpan="5" BackgroundColor="#3f8de6" x:Name="hide" IsVisible="true">
+        <Border Grid.RowSpan="5" BackgroundColor="#3f8de6" x:Name="hide" IsVisible="true" Stroke="Transparent">
             <Grid RowDefinitions="2*,*,*,2*">
                 <Image Grid.Row="1" Source="logo.webp" WidthRequest="250"></Image>
                 <Label x:Name="user_lbl" TranslationY="-50" Grid.Row="2" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" FontSize="25"/>
