@@ -4,12 +4,9 @@
              x:Class="FlexifyMobile.CalendarPage"
              x:Name="Page">
 
-    <Grid RowDefinitions="2*,4*" BackgroundColor="{DynamicResource Background}">
-        <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent">
+    <Grid RowDefinitions="2*,4*, 1*" BackgroundColor="{DynamicResource Background}">
+        <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent" Stroke="{DynamicResource Primary}">
             <Grid RowDefinitions="2*,6*" >
-                <Label HorizontalOptions="Center" FontSize="30" TextColor="White" 
-                       FontAttributes="Bold" TranslationY="-8" Text="This Week"></Label>
-                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="35"></Line>
                 <CollectionView Grid.Row="1" x:Name="weekView"
                             ItemsSource="{Binding Days}"
                             SelectionMode="Single"
@@ -49,15 +46,12 @@
             </Grid>
         </Border>
 
-        <Border Grid.Row="1" Scale="0.8" TranslationY="0" BackgroundColor="Transparent">
+        <Border Grid.Row="1" Scale="0.8" TranslationY="0" BackgroundColor="Transparent" Stroke="{DynamicResource Primary}">
             <Grid RowDefinitions="*,6*" >
-                <Label HorizontalOptions="Center" FontSize="30" TextColor="White" 
-               FontAttributes="Bold" TranslationY="-5" Text="This Month"></Label>
-                <Line WidthRequest="300" HeightRequest="2" BackgroundColor="White" TranslationY="70"></Line>
                 <CollectionView Grid.Row="1" x:Name="monthView"
                     ItemsSource="{Binding Days}"
                     SelectionMode="Single"
-                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-20">
+                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-30" Margin="5">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                              Span="1" />
@@ -94,11 +88,71 @@
                 </CollectionView>
             </Grid>
         </Border>
+        <Button Grid.Row="2" Text="Add Workout" Margin="20" x:Name="AddBtn" Clicked="AddWorkout"></Button>
+
+        <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="AddView" IsVisible="False">
+            <Grid RowDefinitions="1.5*,0.1*,0.5*,0.5*">
+
+                <CollectionView   x:Name="calendarCollectionView"
+                ItemsSource="{Binding Workouts}"
+                SelectionMode="Single"
+                             Opacity="1" Scale="0.8" ZIndex="1" HeightRequest="410">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+             Span="1" />
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal"></VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"></Setter>
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid RowDefinitions="*,*" 
+                                    HeightRequest="80">
+
+                                    <Label Grid.Row="0" FontSize="25" FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Title}"
+                                       VerticalOptions="CenterAndExpand"
+                                       TextColor="White"/>
+                                    <Label Grid.Row="1" FontSize="15" FontAttributes="Bold" HorizontalTextAlignment="Center" Text="{Binding Description}"
+                                       VerticalOptions="CenterAndExpand"
+                                       TextColor="White"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Grid WidthRequest="80" HeightRequest="80" BackgroundColor="Transparent" Grid.Row="1" VerticalOptions="End" TranslationY="30">
+                    <BoxView Color="{DynamicResource Primary}" CornerRadius="50"/>
+                    <Label Text="29" FontSize="40" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White"></Label>
+                </Grid>
+                <Grid ColumnDefinitions="*,*" Grid.Row="2">
+                    <Border Stroke="{DynamicResource Primary}" BackgroundColor="Transparent" HeightRequest="60" WidthRequest="140" HorizontalOptions="Center">
+                        <TimePicker TextColor="White" FontSize="30"></TimePicker>
+                    </Border>
+                    <Border Grid.Column="1" Stroke="{DynamicResource Primary}" BackgroundColor="Transparent" HeightRequest="60" WidthRequest="140" HorizontalOptions="Center">
+                        <TimePicker TextColor="White" FontSize="30"></TimePicker>
+                    </Border>
+                </Grid>
+                <Button Text="Add" HorizontalOptions="Center" Grid.Row="3" WidthRequest="200" HeightRequest="50"></Button>
+            </Grid>
+        </Border>
+
         <Border Grid.RowSpan="2" BackgroundColor="{DynamicResource Background}" x:Name="hide" IsVisible="False" Opacity="0.8">
             <Grid RowDefinitions="*">
                 <Image x:Name="imgLoader" Grid.Row="1" Source="loading.gif" HeightRequest="100" IsAnimationPlaying="True"></Image>
             </Grid>
         </Border>
+        
     </Grid>
 
 

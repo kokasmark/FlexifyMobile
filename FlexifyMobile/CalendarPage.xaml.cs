@@ -9,6 +9,7 @@ namespace FlexifyMobile;
 public partial class CalendarPage : ContentPage
 {
     public ObservableCollection<DayViewModel> Days { get; set; }
+    public ObservableCollection<DayViewModel> Workouts { get; set; }
     FlexifyDatabase database;
     WorkoutDatesResult workoutDatesResult;
     DateTime selected;
@@ -20,7 +21,8 @@ public partial class CalendarPage : ContentPage
         database = new FlexifyDatabase();
         List<User> users = database.GetItemsAsync();
         token = users[users.Count - 1].token;
-        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");
+        getDates(token, $"{DateTime.Now.Year}-{DateTime.Now.Month:D2}");//DateTime.Now.Month
+        InitializeTemplates();
     }
     protected async override void OnAppearing()
     {
@@ -102,7 +104,61 @@ public partial class CalendarPage : ContentPage
         weekView.ItemsSource = thisWeeksWorkouts; // This week's workouts
 
     }
+    void InitializeTemplates()
+    {
+        Workouts = new ObservableCollection<DayViewModel>();
+        WorkoutTemplate workoutData = getTemplates(token).Result;
+        for (int i = 0; i < workoutData.templates.Length; i++)
+        {
 
+            Template template = workoutData.templates[i];
+            string description = "";
+            var ii = 0;
+            foreach (Json exercise in template.json)
+            {
+                description += $"{exercise.set_data.Length}x {exercise.name}";
+                if (ii < template.json.Length - 1)
+                {
+                    description += ", ";
+                }
+                ii++;
+            }
+            Workouts.Add(new DayViewModel
+            {
+                Day = workoutData != null ? $"{template.json.Length.ToString()}\nSet" : "No data",
+                Title = workoutData != null ? template.name : "No data",
+                Description = workoutData != null ? description : "No data",
+                Data = template
+            });
+
+        }
+
+        calendarCollectionView.ItemsSource = Workouts;
+    }
+    async Task<WorkoutTemplate> getTemplates(string token)
+    {
+        var client = new HttpClient();
+
+        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/templates");
+        request.Headers.Add("X-Token", $"{token}");
+
+        var response = await client.SendAsync(request).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+
+
+        if (response.IsSuccessStatusCode)
+        {
+
+            var resdata = await response.Content.ReadAsStringAsync();
+            if (!resdata.Contains("false"))
+            {
+                return JsonSerializer.Deserialize<WorkoutTemplate>(resdata);
+            }
+
+
+        }
+        return null;
+    }
     void OnDaySelected(object sender, SelectionChangedEventArgs e)
     {
 
@@ -162,15 +218,9 @@ public partial class CalendarPage : ContentPage
         }
         return null;
     }
-    private void Home_Clicked(object sender, EventArgs e)
+    private void AddWorkout(object sender, EventArgs e)
     {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//HomePage?Token={token}", false);
-    }
-    private void Diet_Clicked(object sender, EventArgs e)
-    {
-        hide.IsVisible = true;
-        Shell.Current.GoToAsync($"//DietPage", false);
+       AddView.IsVisible = true;    
     }
     private void Start_Workout(object sender, EventArgs e)
     {
