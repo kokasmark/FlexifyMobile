@@ -100,7 +100,7 @@ public partial class DietPage : ContentPage
         var jsonBody = $"{{\"date\": \"{d}\", \"location\": \"{"mobile"}\" }}";
         var content = new StringContent(jsonBody, null, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/diet");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/diet");
         request.Headers.Add("X-Token", $"{token}");
         request.Content = content;
 

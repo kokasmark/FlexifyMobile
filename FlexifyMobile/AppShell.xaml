@@ -16,19 +16,19 @@
     <TabBar>
         <Tab Title="Home"
             Icon="{StaticResource Home}">
-            <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
+            <ShellContent Route="home" ContentTemplate="{DataTemplate local:HomePage}" />
         </Tab>
         <Tab Title="Diet"
             Icon="{StaticResource Diet}">
-            <ShellContent ContentTemplate="{DataTemplate local:DietPage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:DietPage}"  Route="diet"/>
         </Tab>
         <Tab Title="Calendar"
             Icon="{StaticResource Calendar}">
-            <ShellContent ContentTemplate="{DataTemplate local:CalendarPage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:CalendarPage}" Route="calendar"/>
         </Tab>
         <Tab Title="Settings"
             Icon="{StaticResource Settings}">
-            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}" />
+            <ShellContent ContentTemplate="{DataTemplate local:SettingsPage}"  Route="settings"/>
         </Tab>
     </TabBar>
 

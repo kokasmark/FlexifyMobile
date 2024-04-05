@@ -1,7 +1,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using Microsoft.Maui.Controls;
 
 namespace FlexifyMobile;
@@ -14,6 +16,9 @@ public partial class CalendarPage : ContentPage
     WorkoutDatesResult workoutDatesResult;
     DateTime selected;
     string token;
+
+    string selectedDay;
+    Template selectedTemplate;
     public CalendarPage()
 	{
 		InitializeComponent();
@@ -128,18 +133,19 @@ public partial class CalendarPage : ContentPage
                 Day = workoutData != null ? $"{template.json.Length.ToString()}\nSet" : "No data",
                 Title = workoutData != null ? template.name : "No data",
                 Description = workoutData != null ? description : "No data",
-                Data = template
-            });
+                Data = template,
+                Color = Color.FromRgba(0, 0, 0, 0)
+            }) ;
 
         }
 
-        calendarCollectionView.ItemsSource = Workouts;
+        workoutCollectionView.ItemsSource = Workouts;
     }
     async Task<WorkoutTemplate> getTemplates(string token)
     {
         var client = new HttpClient();
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/templates");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}/api/templates");
         request.Headers.Add("X-Token", $"{token}");
 
         var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -171,7 +177,7 @@ public partial class CalendarPage : ContentPage
         var jsonBody = $"{{\"date\": \"{d}\", \"location\": \"{"mobile"}\" }}";
         var content = new StringContent(jsonBody, null, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/workouts/dates");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/workouts/dates");
         request.Headers.Add("X-Token", $"{token}");
         request.Content = content;
 
@@ -197,7 +203,7 @@ public partial class CalendarPage : ContentPage
         var jsonBody = $"{{ \"token\": \"{t}\", \"date\": \"{d}\", \"location\": \"{"mobile"}\" }}";
         var content = new StringContent(jsonBody, null, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/workouts/data");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/workouts/data");
         request.Headers.Add("X-Token", $"{token}");
         request.Content = content;
 
@@ -220,7 +226,9 @@ public partial class CalendarPage : ContentPage
     }
     private void AddWorkout(object sender, EventArgs e)
     {
-       AddView.IsVisible = true;    
+        selectedDay = DateTime.Now.Day.ToString();
+        SelectedDay.Text = selectedDay;
+        AddView.IsVisible = true;    
     }
     private void Start_Workout(object sender, EventArgs e)
     {
@@ -234,6 +242,100 @@ public partial class CalendarPage : ContentPage
         {
             Navigation.PushAsync(new WorkoutPage(template,true));
         }
+    }
+
+    private void cancelAdd_Clicked(object sender, EventArgs e)
+    {
+        AddView.IsVisible = false;
+    }
+
+    private void incrementDay_Clicked(object sender, EventArgs e)
+    {
+        if ((int.Parse(selectedDay)) < DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month)) {
+            incrementDay.Opacity = 1;
+            selectedDay = (int.Parse(selectedDay) + 1).ToString();
+            SelectedDay.Text = selectedDay;
+        }
+        else
+        {
+            incrementDay.Opacity = 0.5;
+        }
+    }
+
+    private void decreaseDay_Clicked(object sender, EventArgs e)
+    {
+        if ((int.Parse(selectedDay)) > 0)
+        {
+            decreaseDay.Opacity = 1;
+            selectedDay = (int.Parse(selectedDay) - 1).ToString();
+            SelectedDay.Text = selectedDay;
+        }
+        else
+        {
+            decreaseDay.Opacity = 0.5;
+        }
+    }
+
+    private void workoutCollectionView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        selectedTemplate = (e.CurrentSelection[0] as DayViewModel).Data;
+    }
+
+    public static string ConvertJsonArrayToJson(Json[] jsonArray)
+    {
+        // Define serialization options
+        var options = new JsonSerializerOptions
+        {
+            WriteIndented = true,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) } // Convert enums to strings with camel case
+        };
+
+        // Serialize the JSON array to JSON using System.Text.Json
+        string jsonString = JsonSerializer.Serialize(jsonArray, options);
+
+        // Return the JSON string
+        return jsonString;
+    }
+    private async void confirmAdd_Clicked(object sender, EventArgs e)
+    {
+        var client = new HttpClient();
+        DateTime selectedDateTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, int.Parse(selectedDay));
+
+        // Constructing the time string
+        TimeSpan startPicker = start.Time;
+        TimeSpan endPicker = end.Time;
+        var startTime = $"{selectedDateTime.ToString("ddd MMM dd yyyy HH:mm:ss")} GMT+0100 (közép-európai téli idõ)";
+        var endTime = $"{selectedDateTime.AddDays(1).ToString("ddd MMM dd yyyy HH:mm:ss")} GMT+0100 (közép-európai téli idõ)";
+        var timeJson = $"{{\"start\":\"{startTime}\",\"end\":\"{endTime}\"}}";
+
+        // Constructing the JSON body
+        var jsonBody = $"{{" +
+                        $"\"token\": \"{token}\"," +
+                        $"\"date\": \"{DateTime.Now.Year}-{DateTime.Now.Month:D2}-{selectedDay:D2}\"," +
+                        $"\"time\": {timeJson}," +
+                        $"\"location\": \"mobile\"," + // Assuming "mobile" is the value of location
+                        $"\"name\": \"{selectedTemplate.name}\"," + // Inserting the name variable
+                        $"\"json\": {ConvertJsonArrayToJson(selectedTemplate.json)}" + // Inserting the JSON variable
+                    $"}}";
+
+        var content = new StringContent(jsonBody, Encoding.UTF8, "application/json");
+
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/workouts/save");
+        request.Headers.Add("X-Token", token);
+        request.Content = content;
+
+        var response = await client.SendAsync(request).ConfigureAwait(false);
+        response.EnsureSuccessStatusCode();
+
+        if (response.IsSuccessStatusCode)
+        {
+            var responseData = await response.Content.ReadAsStringAsync();
+            if (!responseData.Contains("false"))
+            {
+                // Success handling
+            }
+        }
+
     }
 }
 

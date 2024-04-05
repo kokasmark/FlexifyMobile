@@ -23,6 +23,9 @@
     <FontImage x:Key="Settings" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Cog}"/>
     <FontImage x:Key="Calendar" FontFamily="FontAwesome" Size="22" Color="White" Glyph="{x:Static res:IconFonts.Calendar}"/>
 
+    <FontImage x:Key="Plus" FontFamily="FontAwesome" Size="22" Color="#3f8de6" Glyph="{x:Static res:IconFonts.PlusCircle}"/>
+    <FontImage x:Key="Minus" FontFamily="FontAwesome" Size="22" Color="#3f8de6" Glyph="{x:Static res:IconFonts.MinusCircle}"/>
+    
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>

@@ -36,7 +36,7 @@ namespace FlexifyMobile
             try
             {
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/user");
+                var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}/api/user");
                 request.Headers.Add("X-Token", $"{token}");
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 response.EnsureSuccessStatusCode();
@@ -47,7 +47,7 @@ namespace FlexifyMobile
                     //await Shell.Current.GoToAsync($"//HomePage?Token={token}", true);
                     await Device.InvokeOnMainThreadAsync(async () =>
                     {
-                        await Shell.Current.GoToAsync($"//HomePage?Token={token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
+                        await Shell.Current.GoToAsync($"//home?Token={token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
                     });
                 }
             }
@@ -70,7 +70,7 @@ namespace FlexifyMobile
             var jsonBody = $"{{ \"user\": \"{username}\", \"password\": \"{password}\", \"location\": \"{"mobile"}\" }}";
             var content = new StringContent(jsonBody, null, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/login");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/login");
             request.Content = content;
 
             var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -88,7 +88,7 @@ namespace FlexifyMobile
                 // Use Device.InvokeOnMainThreadAsync to update the UI on the main thread
                 await Device.InvokeOnMainThreadAsync(async () =>
                 {
-                    await Shell.Current.GoToAsync($"//HomePage?Token={token.token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
+                    await Shell.Current.GoToAsync($"//home?Token={token.token}", true);//Toggle the bool variable between builds to fix Maui not rendering on Navigation
                 });
             }
             

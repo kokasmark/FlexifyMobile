@@ -201,7 +201,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     async void GetUserInformation(string token)
 	{
         var client = new HttpClient();
-        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/user");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}/api/user");
         request.Headers.Add("X-Token", $"{token}");
         var response = await client.SendAsync(request).ConfigureAwait(false);
         response.EnsureSuccessStatusCode();
@@ -251,7 +251,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         var jsonBody = $"{{ \"token\": \"{t}\", \"date\": \"{d}\", \"location\": \"{"mobile"}\" }}";
         var content = new StringContent(jsonBody, null, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/workouts/data");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/workouts/data");
         request.Headers.Add("X-Token", $"{token}");
         request.Content = content;
 
@@ -279,7 +279,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         var jsonBody = $"{{\"date\": \"{d}\", \"location\": \"{"mobile"}\" }}";
         var content = new StringContent(jsonBody, null, "application/json");
 
-        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/workouts/dates");
+        var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/workouts/dates");
         request.Headers.Add("X-Token", $"{token}");
         request.Content = content;
 
@@ -344,7 +344,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
     {
         var client = new HttpClient();
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}:3001/api/templates");
+        var request = new HttpRequestMessage(HttpMethod.Get, $"http://{Constants.hostname}/api/templates");
         request.Headers.Add("X-Token", $"{token}");
 
         var response = await client.SendAsync(request).ConfigureAwait(false);
@@ -465,7 +465,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
             }
         }
     }
-    private void Start_Workout_Calendar(object sender, EventArgs e)
+    private async void Start_Workout_Calendar(object sender, EventArgs e)
     {
         var button = sender as ImageButton;
         var dayViewModel = button.CommandParameter as DayViewModel;
@@ -474,10 +474,10 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
         if (template != null)
         {
-            Navigation.PushAsync(new WorkoutPage(template, true));
+            await Navigation.PushAsync(new WorkoutPage(template, true));
         }
     }
-    private void Start_Workout(object sender, EventArgs e)
+    private async void Start_Workout(object sender, EventArgs e)
     {
         var button = sender as ImageButton;
         var dayViewModel = button.CommandParameter as DayViewModel;
@@ -486,7 +486,7 @@ public partial class HomePage : ContentPage, INotifyPropertyChanged
         // Proceed with navigating to the WorkoutPage or any other action with the selected workout data
         if (template != null)
         {
-            Navigation.PushAsync(new WorkoutPage(template, false));
+            await Navigation.PushAsync(new WorkoutPage(template, false));
         }
     }
 }

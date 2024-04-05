@@ -5,12 +5,12 @@
              x:Name="Page">
 
     <Grid RowDefinitions="2*,4*, 1*" BackgroundColor="{DynamicResource Background}">
-        <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent" Stroke="{DynamicResource Primary}">
-            <Grid RowDefinitions="2*,6*" >
-                <CollectionView Grid.Row="1" x:Name="weekView"
+        <Border Grid.Row="0" Scale="0.8" TranslationY="30" BackgroundColor="Transparent" HeightRequest="220" Stroke="{DynamicResource Primary}" Padding="5">
+            <Grid RowDefinitions="*" >
+                <CollectionView Grid.Row="0" x:Name="weekView"
                             ItemsSource="{Binding Days}"
                             SelectionMode="Single"
-                            SelectionChanged="OnDaySelected" HeightRequest="220">
+                            SelectionChanged="OnDaySelected" TranslationY="0">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                                      Span="1" />
@@ -19,6 +19,17 @@
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Border BackgroundColor="{DynamicResource Primary}"  Padding="5" Margin="5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal"></VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="{DynamicResource Primary}"></Setter>
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                                   HeightRequest="80" Opacity="{Binding Opacity}">
                                     <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
@@ -46,12 +57,12 @@
             </Grid>
         </Border>
 
-        <Border Grid.Row="1" Scale="0.8" TranslationY="0" BackgroundColor="Transparent" Stroke="{DynamicResource Primary}">
-            <Grid RowDefinitions="*,6*" >
-                <CollectionView Grid.Row="1" x:Name="monthView"
+        <Border Grid.Row="1" Scale="0.8" TranslationY="0" HeightRequest="430" BackgroundColor="Transparent" Stroke="{DynamicResource Primary}">
+            <Grid RowDefinitions="*" >
+                <CollectionView Grid.Row="0" x:Name="monthView"
                     ItemsSource="{Binding Days}"
                     SelectionMode="Single"
-                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="-30" Margin="5">
+                    SelectionChanged="OnDaySelected" HeightRequest="400" TranslationY="0" Margin="5">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
                              Span="1" />
@@ -61,7 +72,17 @@
                         <DataTemplate>
                             
                             <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
-                                
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Normal"></VisualState>
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="BackgroundColor" Value="Red"></Setter>
+                                            </VisualState.Setters>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,3*,*"  
                           HeightRequest="80"  Opacity="{Binding Opacity}">
                                     <Label Grid.RowSpan="2" FontSize="25" Text="{Binding Day}"
@@ -91,12 +112,12 @@
         <Button Grid.Row="2" Text="Add Workout" Margin="20" x:Name="AddBtn" Clicked="AddWorkout"></Button>
 
         <Border Grid.RowSpan="3" BackgroundColor="{DynamicResource Background}" x:Name="AddView" IsVisible="False">
-            <Grid RowDefinitions="1.5*,0.1*,0.5*,0.5*">
+            <Grid RowDefinitions="1.5*,0.3*,0.5*,0.5*,0.1*">
 
-                <CollectionView   x:Name="calendarCollectionView"
+                <CollectionView   x:Name="workoutCollectionView"
                 ItemsSource="{Binding Workouts}"
                 SelectionMode="Single"
-                             Opacity="1" Scale="0.8" ZIndex="1" HeightRequest="410">
+                             Opacity="1" Scale="0.8" ZIndex="1" HeightRequest="410" SelectionChanged="workoutCollectionView_SelectionChanged">
                     <CollectionView.ItemsLayout>
                         <GridItemsLayout Orientation="Vertical"
              Span="1" />
@@ -104,7 +125,7 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <Border BackgroundColor="{DynamicResource Primary}" Padding="5" Margin="5">
+                            <Border Stroke="{DynamicResource Primary}" BackgroundColor="{Binding Color}"  Padding="5" Margin="5"> 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup Name="CommonStates">
                                         <VisualState Name="Normal"></VisualState>
@@ -131,19 +152,23 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Grid WidthRequest="80" HeightRequest="80" BackgroundColor="Transparent" Grid.Row="1" VerticalOptions="End" TranslationY="30">
-                    <BoxView Color="{DynamicResource Primary}" CornerRadius="50"/>
-                    <Label Text="29" FontSize="40" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White"></Label>
+                <Grid WidthRequest="200" HeightRequest="80" BackgroundColor="Transparent" Grid.Row="1" VerticalOptions="End" TranslationY="30" ColumnDefinitions="*,*,*" ZIndex="10">
+                    <BoxView Color="{DynamicResource Primary}" WidthRequest="80" CornerRadius="50" Grid.ColumnSpan="3"/>
+                    <Label Text="29" FontSize="40" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="White" Grid.ColumnSpan="3" x:Name="SelectedDay"></Label>
+
+                    <ImageButton Source="{StaticResource Minus}" TranslationX="0" WidthRequest="50" x:Name="decreaseDay" Clicked="decreaseDay_Clicked"/>
+                    <ImageButton Source="{StaticResource Plus}" Grid.Column="2" TranslationX="0" WidthRequest="50" x:Name="incrementDay" Clicked="incrementDay_Clicked"/>
                 </Grid>
-                <Grid ColumnDefinitions="*,*" Grid.Row="2">
+                <Grid ColumnDefinitions="*,*" Grid.Row="2" BackgroundColor="Transparent">
                     <Border Stroke="{DynamicResource Primary}" BackgroundColor="Transparent" HeightRequest="60" WidthRequest="140" HorizontalOptions="Center">
-                        <TimePicker TextColor="White" FontSize="30"></TimePicker>
+                        <TimePicker x:Name="start" TextColor="White" FontSize="30"></TimePicker>
                     </Border>
                     <Border Grid.Column="1" Stroke="{DynamicResource Primary}" BackgroundColor="Transparent" HeightRequest="60" WidthRequest="140" HorizontalOptions="Center">
-                        <TimePicker TextColor="White" FontSize="30"></TimePicker>
+                        <TimePicker x:Name="end" TextColor="White" FontSize="30"></TimePicker>
                     </Border>
                 </Grid>
-                <Button Text="Add" HorizontalOptions="Center" Grid.Row="3" WidthRequest="200" HeightRequest="50"></Button>
+                <Button Text="Add" HorizontalOptions="Center" Grid.Row="3" WidthRequest="200" HeightRequest="50" x:Name="confirmAdd" Clicked="confirmAdd_Clicked"></Button>
+                <Button Text="Cancel" HorizontalOptions="Center" Grid.Row="4" WidthRequest="100" HeightRequest="50" Background="Gray" x:Name="cancelAdd" Clicked="cancelAdd_Clicked"></Button>
             </Grid>
         </Border>
 

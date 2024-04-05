@@ -125,7 +125,7 @@ namespace FlexifyMobile
         async void GetUserMusclesWorked(string token,int timespan)
         {
             var client = new HttpClient();
-            var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}:3001/api/user/muscles");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"http://{Constants.hostname}/api/user/muscles");
             var jsonBody = $"{{ \"timespan\": \"{timespan}\"}}";
             request.Headers.Add("X-Token", $"{token}");
             var content = new StringContent(jsonBody, null, "application/json");
