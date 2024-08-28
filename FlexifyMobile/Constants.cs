@@ -8,7 +8,7 @@ namespace FlexifyMobile
 {
     public static class Constants
     {
-        public static string hostname = "traditional-debor-flexify-backend.koyeb.app";
+        public static string hostname = "192.168.0.44:3001";
         public const string DatabaseFilename = "FlexifyDatabase3.db3";
 
         public const SQLite.SQLiteOpenFlags Flags = SQLite.SQLiteOpenFlags.ReadWrite | SQLite.SQLiteOpenFlags.Create | SQLite.SQLiteOpenFlags.SharedCache;
